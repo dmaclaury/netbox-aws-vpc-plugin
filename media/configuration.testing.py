@@ -15,7 +15,7 @@ DATABASE = {
 }
 
 PLUGINS = [
-    "netbox_dns",
+    "netbox_aws_vpc_plugin",
 ]
 
 REDIS = {
