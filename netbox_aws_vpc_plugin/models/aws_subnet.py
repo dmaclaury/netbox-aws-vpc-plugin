@@ -33,6 +33,8 @@ class AWSSubnet(NetBoxModel):
 
     class Meta:
         ordering = ("subnet_id",)
+        verbose_name = "AWS Subnet"
+        verbose_name_plural = "AWS Subnets"
 
     def __str__(self):
         # TODO: conditional if name is not blank
