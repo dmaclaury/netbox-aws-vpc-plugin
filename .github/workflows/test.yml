@@ -55,7 +55,7 @@ jobs:
                 path: netbox
                 ref: main
 
-          - name: Install NetBox DNS
+          - name: Install NetBox AWS VPC Plugin
             working-directory: netbox-aws-vpc-plugin
             run: |
                 # include tests directory for test
