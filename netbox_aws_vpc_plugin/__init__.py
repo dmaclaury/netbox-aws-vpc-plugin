@@ -14,6 +14,7 @@ class AWSVPCConfig(PluginConfig):
     description = "NetBox plugin for modeling AWS VPCs in NetBox"
     version = "version"
     base_url = "aws-vpc"
+    min_version = "4.0.0"
 
 
 config = AWSVPCConfig
