@@ -41,11 +41,11 @@ Enable the plugin in `/opt/netbox/netbox/netbox/configuration.py`,
 
 ```python
 PLUGINS = [
-    'netbox-aws-vpc-plugin'
+    'netbox_aws_vpc_plugin'
 ]
 
 PLUGINS_CONFIG = {
-    "netbox-aws-vpc-plugin": {},
+    "netbox_aws_vpc_plugin": {},
 }
 ```
 
