@@ -13,6 +13,7 @@ authors = [
 ]
 description = "NetBox plugin for modeling AWS VPCs in NetBox"
 readme = "README.md"
+license = {file="LICENCE"}
 
 classifiers=[
     'Development Status :: 3 - Alpha',

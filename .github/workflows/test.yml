@@ -1,12 +1,15 @@
 name: Test with all supported NetBox versions
 
 on:
-  - push
+  # - push
   - pull_request
 
 jobs:
     test-netbox:
         runs-on: arc-runner-set-netbox-aws-vpc-plugin
+
+        permissions:
+          contents: read
 
         strategy:
           matrix:
