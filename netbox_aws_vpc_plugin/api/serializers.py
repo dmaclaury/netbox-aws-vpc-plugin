@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ipam.api.serializers import NestedPrefixSerializer
+from ipam.api.serializers import PrefixSerializer
 from netbox.api.serializers import NetBoxModelSerializer
 from ..models import AWSVPC, AWSSubnet, AWSAccount
 from .nested_serializers import *
@@ -10,7 +10,12 @@ class AWSVPCSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_aws_vpc_plugin-api:awsvpc-detail'
     )
-    vpc_cidr = NestedPrefixSerializer()
+    vpc_cidr = PrefixSerializer(
+        required=False,
+        allow_null=True,
+        default=None,
+        nested=True
+    )
     owner_account = NestedAWSAccountSerializer()
 
     class Meta:
@@ -25,7 +30,12 @@ class AWSSubnetSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_aws_vpc_plugin-api:awssubnet-detail'
     )
-    subnet_cidr = NestedPrefixSerializer()
+    subnet_cidr = PrefixSerializer(
+        required=False,
+        allow_null=True,
+        default=None,
+        nested=True
+    )
     vpc = NestedAWSVPCSerializer()
     owner_account = NestedAWSAccountSerializer()
 

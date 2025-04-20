@@ -60,7 +60,7 @@ class Migration(migrations.Migration):
                 ('created', models.DateTimeField(auto_now_add=True, null=True)),
                 ('last_updated', models.DateTimeField(auto_now=True, null=True)),
                 ('custom_field_data', models.JSONField(blank=True, default=dict, encoder=utilities.json.CustomFieldJSONEncoder)),
-                ('subnet_id', models.CharField(max_length=21, unique=True)),
+                ('subnet_id', models.CharField(max_length=47, unique=True)),
                 ('name', models.CharField(blank=True, max_length=256)),
                 ('arn', models.CharField(blank=True, max_length=2000)),
                 ('comments', models.TextField(blank=True)),

@@ -8,10 +8,12 @@ from .models import AWSVPC, AWSSubnet, AWSAccount
 # AWS VPC Forms
 class AWSVPCForm(NetBoxModelForm):
     vpc_cidr = DynamicModelChoiceField(
-        queryset=Prefix.objects.all()
+        queryset=Prefix.objects.all(),
+        required=False,
     )
     owner_account = DynamicModelChoiceField(
-        queryset=AWSAccount.objects.all()
+        queryset=AWSAccount.objects.all(),
+        required=False,
     )
     comments = CommentField()
     
@@ -30,13 +32,16 @@ class AWSVPCFilterForm(NetBoxModelFilterSetForm):
 # AWS Subnet Forms
 class AWSSubnetForm(NetBoxModelForm):
     vpc = DynamicModelChoiceField(
-        queryset=AWSVPC.objects.all()
+        queryset=AWSVPC.objects.all(),
+        required=False,
     )
     subnet_cidr = DynamicModelChoiceField(
-        queryset=Prefix.objects.all()
+        queryset=Prefix.objects.all(),
+        required=False,
     )
     owner_account = DynamicModelChoiceField(
-        queryset=AWSAccount.objects.all()
+        queryset=AWSAccount.objects.all(),
+        required=False,
     )
     comments = CommentField()
     

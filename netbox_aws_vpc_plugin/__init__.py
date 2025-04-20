@@ -13,7 +13,7 @@ class AWSVPCConfig(PluginConfig):
     verbose_name = "NetBox AWS VPC Plugin"
     description = "NetBox plugin for modeling AWS VPCs in NetBox"
     version = "version"
-    base_url = "netbox_aws_vpc_plugin"
+    base_url = "aws-vpc"
 
 
 config = AWSVPCConfig

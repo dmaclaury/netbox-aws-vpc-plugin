@@ -11,7 +11,7 @@ from .aws_account import AWSAccount
 
 class AWSSubnet(NetBoxModel):
     subnet_id = models.CharField(
-        max_length=21,
+        max_length=47,
         unique=True
     )
     name = models.CharField(
