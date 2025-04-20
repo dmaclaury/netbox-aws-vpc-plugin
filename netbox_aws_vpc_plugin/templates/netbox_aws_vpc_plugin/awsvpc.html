@@ -1,0 +1,54 @@
+
+{% extends 'generic/object.html' %}
+{% load render_table from django_tables2 %}
+
+{% block content %}
+  <div class="row mb-3">
+    <div class="col col-md-6">
+      <div class="card">
+
+        <h5 class="card-header">AWS VPC</h5>
+
+        <table class="table table-hover attr-table">
+          <tr>
+            <th scope="row">VPC ID</th>
+            <td>{{ object.vpc_id }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Name</th>
+            <td>{{ object.name }}</td>
+          </tr>
+          <tr>
+            <th scope="row">ARN</th>
+            <td>{{ object.arn }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Primary CIDR</th>
+            <td>{{ object.vpc_cidr }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Owner Account</th>
+            <td><a href="{{ object.owner_account.get_absolute_url }}">{{ object.owner_account }}</a></td>
+            
+          </tr>
+        </table>
+      </div>
+      {% include 'inc/panels/custom_fields.html' %}
+    </div>
+    <div class="col col-md-6">
+      {% include 'inc/panels/tags.html' %}
+      {% include 'inc/panels/comments.html' %}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-md-12">
+      <div class="card">
+        <h5 class="card-header">Subnets</h5>
+        <div class="card-body table-responsive">
+          {% render_table subnets_table %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+

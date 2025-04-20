@@ -1,0 +1,49 @@
+# See PEP 518 for the spec of this file
+# https://www.python.org/dev/peps/pep-0518/
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name =  "netbox-aws-vpc-plugin"
+version = "0.0.1"
+authors = [
+    {name = "Daniel MacLaury", email = "daniel@danielmaclaury.com"},
+]
+description = "NetBox plugin for modeling AWS VPCs in NetBox"
+readme = "README.md"
+
+classifiers=[
+    'Development Status :: 3 - Alpha',
+    'Intended Audience :: Developers',
+    'Natural Language :: English',
+    "Programming Language :: Python :: 3 :: Only",
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+]
+
+requires-python = ">=3.10.0"
+
+[project.optional-dependencies]
+test = [
+    "black==24.3.0",
+    "check-manifest==0.49",
+    "flake8",
+    "flake8-pyproject",
+    "pre-commit==3.7.0",
+    "pytest==8.1.1",
+]
+
+[project.urls]
+Documentation = "https://github.com/dmaclaury/netbox-aws-vpc-plugin/blob/main/README.md"
+Source = "https://github.com/dmaclaury/netbox-aws-vpc-plugin"
+Tracker = "https://github.com/dmaclaury/netbox-aws-vpc-plugin/issues"
+
+[tool.black]
+line-length = 120
+target_version = ['py39', 'py310', 'py311', 'py312']
+
+[tool.setuptools.package-data]
+netbox_aws_vpc_plugin = ["templates/**"]
