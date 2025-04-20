@@ -31,6 +31,8 @@ class AWSVPC(NetBoxModel):
 
     class Meta:
         ordering = ("vpc_id",)
+        verbose_name = "AWS VPC"
+        verbose_name_plural = "AWS VPCs"
 
     def __str__(self):
         # TODO: conditional if name is not blank
