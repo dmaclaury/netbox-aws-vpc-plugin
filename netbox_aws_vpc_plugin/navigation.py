@@ -1,4 +1,4 @@
-from netbox.plugins import PluginMenu, PluginMenuButton, PluginMenuItem
+from netbox.plugins import PluginMenuButton, PluginMenuItem
 
 vpc_buttons = [
     PluginMenuButton(

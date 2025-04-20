@@ -11,66 +11,109 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('extras', '0123_journalentry_kind_default'),
-        ('ipam', '0076_natural_ordering'),
+        ("extras", "0123_journalentry_kind_default"),
+        ("ipam", "0076_natural_ordering"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='AWSAccount',
+            name="AWSAccount",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False)),
-                ('created', models.DateTimeField(auto_now_add=True, null=True)),
-                ('last_updated', models.DateTimeField(auto_now=True, null=True)),
-                ('custom_field_data', models.JSONField(blank=True, default=dict, encoder=utilities.json.CustomFieldJSONEncoder)),
-                ('account_id', models.CharField(max_length=12, unique=True)),
-                ('arn', models.CharField(blank=True, max_length=2000)),
-                ('name', models.CharField(blank=True, max_length=50)),
-                ('description', models.CharField(blank=True, max_length=500)),
-                ('comments', models.TextField(blank=True)),
-                ('tags', taggit.managers.TaggableManager(through='extras.TaggedItem', to='extras.Tag')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False)),
+                ("created", models.DateTimeField(auto_now_add=True, null=True)),
+                ("last_updated", models.DateTimeField(auto_now=True, null=True)),
+                (
+                    "custom_field_data",
+                    models.JSONField(blank=True, default=dict, encoder=utilities.json.CustomFieldJSONEncoder),
+                ),
+                ("account_id", models.CharField(max_length=12, unique=True)),
+                ("arn", models.CharField(blank=True, max_length=2000)),
+                ("name", models.CharField(blank=True, max_length=50)),
+                ("description", models.CharField(blank=True, max_length=500)),
+                ("comments", models.TextField(blank=True)),
+                ("tags", taggit.managers.TaggableManager(through="extras.TaggedItem", to="extras.Tag")),
             ],
             options={
-                'ordering': ('account_id',),
+                "ordering": ("account_id",),
             },
         ),
         migrations.CreateModel(
-            name='AWSVPC',
+            name="AWSVPC",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False)),
-                ('created', models.DateTimeField(auto_now_add=True, null=True)),
-                ('last_updated', models.DateTimeField(auto_now=True, null=True)),
-                ('custom_field_data', models.JSONField(blank=True, default=dict, encoder=utilities.json.CustomFieldJSONEncoder)),
-                ('vpc_id', models.CharField(max_length=21, unique=True)),
-                ('name', models.CharField(blank=True, max_length=256)),
-                ('arn', models.CharField(blank=True, max_length=2000)),
-                ('comments', models.TextField(blank=True)),
-                ('owner_account', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='netbox_aws_vpc_plugin.awsaccount')),
-                ('tags', taggit.managers.TaggableManager(through='extras.TaggedItem', to='extras.Tag')),
-                ('vpc_cidr', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='ipam.prefix')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False)),
+                ("created", models.DateTimeField(auto_now_add=True, null=True)),
+                ("last_updated", models.DateTimeField(auto_now=True, null=True)),
+                (
+                    "custom_field_data",
+                    models.JSONField(blank=True, default=dict, encoder=utilities.json.CustomFieldJSONEncoder),
+                ),
+                ("vpc_id", models.CharField(max_length=21, unique=True)),
+                ("name", models.CharField(blank=True, max_length=256)),
+                ("arn", models.CharField(blank=True, max_length=2000)),
+                ("comments", models.TextField(blank=True)),
+                (
+                    "owner_account",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="netbox_aws_vpc_plugin.awsaccount",
+                    ),
+                ),
+                ("tags", taggit.managers.TaggableManager(through="extras.TaggedItem", to="extras.Tag")),
+                (
+                    "vpc_cidr",
+                    models.ForeignKey(
+                        blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to="ipam.prefix"
+                    ),
+                ),
             ],
             options={
-                'ordering': ('vpc_id',),
+                "ordering": ("vpc_id",),
             },
         ),
         migrations.CreateModel(
-            name='AWSSubnet',
+            name="AWSSubnet",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False)),
-                ('created', models.DateTimeField(auto_now_add=True, null=True)),
-                ('last_updated', models.DateTimeField(auto_now=True, null=True)),
-                ('custom_field_data', models.JSONField(blank=True, default=dict, encoder=utilities.json.CustomFieldJSONEncoder)),
-                ('subnet_id', models.CharField(max_length=47, unique=True)),
-                ('name', models.CharField(blank=True, max_length=256)),
-                ('arn', models.CharField(blank=True, max_length=2000)),
-                ('comments', models.TextField(blank=True)),
-                ('owner_account', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='netbox_aws_vpc_plugin.awsaccount')),
-                ('subnet_cidr', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='ipam.prefix')),
-                ('tags', taggit.managers.TaggableManager(through='extras.TaggedItem', to='extras.Tag')),
-                ('vpc', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='netbox_aws_vpc_plugin.awsvpc')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False)),
+                ("created", models.DateTimeField(auto_now_add=True, null=True)),
+                ("last_updated", models.DateTimeField(auto_now=True, null=True)),
+                (
+                    "custom_field_data",
+                    models.JSONField(blank=True, default=dict, encoder=utilities.json.CustomFieldJSONEncoder),
+                ),
+                ("subnet_id", models.CharField(max_length=47, unique=True)),
+                ("name", models.CharField(blank=True, max_length=256)),
+                ("arn", models.CharField(blank=True, max_length=2000)),
+                ("comments", models.TextField(blank=True)),
+                (
+                    "owner_account",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="netbox_aws_vpc_plugin.awsaccount",
+                    ),
+                ),
+                (
+                    "subnet_cidr",
+                    models.ForeignKey(
+                        blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to="ipam.prefix"
+                    ),
+                ),
+                ("tags", taggit.managers.TaggableManager(through="extras.TaggedItem", to="extras.Tag")),
+                (
+                    "vpc",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="netbox_aws_vpc_plugin.awsvpc",
+                    ),
+                ),
             ],
             options={
-                'ordering': ('subnet_id',),
+                "ordering": ("subnet_id",),
             },
         ),
     ]

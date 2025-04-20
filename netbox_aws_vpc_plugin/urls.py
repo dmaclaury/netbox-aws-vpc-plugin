@@ -17,7 +17,6 @@ urlpatterns = (
         name="awsvpc_changelog",
         kwargs={"model": models.AWSVPC},
     ),
-
     # AWS Subnet Paths
     path("aws-subnets/", views.AWSSubnetListView.as_view(), name="awssubnet_list"),
     path("aws-subnets/add/", views.AWSSubnetEditView.as_view(), name="awssubnet_add"),
@@ -30,7 +29,6 @@ urlpatterns = (
         name="awssubnet_changelog",
         kwargs={"model": models.AWSSubnet},
     ),
-
     # AWS Account Paths
     path("aws-accounts/", views.AWSAccountListView.as_view(), name="awsaccount_list"),
     path("aws-accounts/add/", views.AWSAccountEditView.as_view(), name="awsaccount_add"),

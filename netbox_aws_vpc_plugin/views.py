@@ -1,7 +1,6 @@
-from django.db.models import Count
-
 from netbox.views import generic
 from . import filtersets, forms, models, tables
+
 
 # VPC Views
 class AWSVPCView(generic.ObjectView):
@@ -12,8 +11,9 @@ class AWSVPCView(generic.ObjectView):
         table.configure(request)
 
         return {
-            'subnets_table': table,
+            "subnets_table": table,
         }
+
 
 class AWSVPCListView(generic.ObjectListView):
     queryset = models.AWSVPC.objects.all()
@@ -22,9 +22,11 @@ class AWSVPCListView(generic.ObjectListView):
     filterset_form = forms.AWSVPCFilterForm
     # TODO: Count of subnets
 
+
 class AWSVPCEditView(generic.ObjectEditView):
     queryset = models.AWSVPC.objects.all()
     form = forms.AWSVPCForm
+
 
 class AWSVPCDeleteView(generic.ObjectDeleteView):
     queryset = models.AWSVPC.objects.all()
@@ -34,15 +36,18 @@ class AWSVPCDeleteView(generic.ObjectDeleteView):
 class AWSSubnetView(generic.ObjectView):
     queryset = models.AWSSubnet.objects.all()
 
+
 class AWSSubnetListView(generic.ObjectListView):
     queryset = models.AWSSubnet.objects.all()
     table = tables.AWSSubnetTable
     filterset = filtersets.AWSSubnetFilterSet
     filterset_form = forms.AWSSubnetFilterForm
 
+
 class AWSSubnetEditView(generic.ObjectEditView):
     queryset = models.AWSSubnet.objects.all()
     form = forms.AWSSubnetForm
+
 
 class AWSSubnetDeleteView(generic.ObjectDeleteView):
     queryset = models.AWSSubnet.objects.all()
@@ -52,14 +57,16 @@ class AWSSubnetDeleteView(generic.ObjectDeleteView):
 class AWSAccountView(generic.ObjectView):
     queryset = models.AWSAccount.objects.all()
 
+
 class AWSAccountListView(generic.ObjectListView):
     queryset = models.AWSAccount.objects.all()
     table = tables.AWSAccountTable
+
 
 class AWSAccountEditView(generic.ObjectEditView):
     queryset = models.AWSAccount.objects.all()
     form = forms.AWSAccountForm
 
+
 class AWSAccountDeleteView(generic.ObjectDeleteView):
     queryset = models.AWSAccount.objects.all()
-

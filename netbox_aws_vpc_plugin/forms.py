@@ -5,6 +5,7 @@ from utilities.forms.fields import CommentField, DynamicModelChoiceField
 
 from .models import AWSVPC, AWSSubnet, AWSAccount
 
+
 # AWS VPC Forms
 class AWSVPCForm(NetBoxModelForm):
     vpc_cidr = DynamicModelChoiceField(
@@ -16,18 +17,17 @@ class AWSVPCForm(NetBoxModelForm):
         required=False,
     )
     comments = CommentField()
-    
+
     class Meta:
         model = AWSVPC
         fields = ("vpc_id", "name", "arn", "vpc_cidr", "owner_account", "comments", "tags")
 
+
 class AWSVPCFilterForm(NetBoxModelFilterSetForm):
     model = AWSVPC
 
-    owner_account = forms.ModelMultipleChoiceField(
-        queryset=AWSAccount.objects.all(),
-        required=False
-    )
+    owner_account = forms.ModelMultipleChoiceField(queryset=AWSAccount.objects.all(), required=False)
+
 
 # AWS Subnet Forms
 class AWSSubnetForm(NetBoxModelForm):
@@ -44,28 +44,23 @@ class AWSSubnetForm(NetBoxModelForm):
         required=False,
     )
     comments = CommentField()
-    
+
     class Meta:
         model = AWSSubnet
         fields = ("subnet_id", "vpc", "name", "arn", "subnet_cidr", "owner_account", "comments", "tags")
 
+
 class AWSSubnetFilterForm(NetBoxModelFilterSetForm):
     model = AWSSubnet
 
-    vpc = forms.ModelMultipleChoiceField(
-        queryset=AWSVPC.objects.all(),
-        required=False
-    )
-    owner_account = forms.ModelMultipleChoiceField(
-        queryset=AWSAccount.objects.all(),
-        required=False
-    )
+    vpc = forms.ModelMultipleChoiceField(queryset=AWSVPC.objects.all(), required=False)
+    owner_account = forms.ModelMultipleChoiceField(queryset=AWSAccount.objects.all(), required=False)
 
 
 # AWS Account Forms
 class AWSAccountForm(NetBoxModelForm):
     comments = CommentField()
-    
+
     class Meta:
         model = AWSAccount
         fields = ("account_id", "name", "arn", "description", "comments", "tags")

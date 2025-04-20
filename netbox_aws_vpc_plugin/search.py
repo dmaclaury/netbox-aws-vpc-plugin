@@ -6,10 +6,10 @@ from .models import AWSVPC, AWSSubnet, AWSAccount
 class AWSVPCIndex(SearchIndex):
     model = AWSVPC
     fields = (
-        ('vpc_id', 90),
-        ('name', 100),
-        ('arn',900),
-        ('comments', 5000),
+        ("vpc_id", 90),
+        ("name", 100),
+        ("arn", 900),
+        ("comments", 5000),
     )
 
 
@@ -17,10 +17,10 @@ class AWSVPCIndex(SearchIndex):
 class AWSSubnetIndex(SearchIndex):
     model = AWSSubnet
     fields = (
-        ('subnet_id', 90),
-        ('name', 100),
-        ('arn',900),
-        ('comments', 5000),
+        ("subnet_id", 90),
+        ("name", 100),
+        ("arn", 900),
+        ("comments", 5000),
     )
 
 
@@ -28,9 +28,8 @@ class AWSSubnetIndex(SearchIndex):
 class AWSAccountIndex(SearchIndex):
     model = AWSAccount
     fields = (
-        ('account_id', 90),
-        ('name', 100),
-        ('arn',900),
-        ('comments', 5000),
+        ("account_id", 90),
+        ("name", 100),
+        ("arn", 900),
+        ("comments", 5000),
     )
-

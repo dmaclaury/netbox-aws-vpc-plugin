@@ -8,42 +8,26 @@ from netbox.models import NetBoxModel
 
 from .aws_account import AWSAccount
 
+
 class AWSVPC(NetBoxModel):
-    vpc_id = models.CharField(
-        max_length=21,
-        unique=True
-    )
+    vpc_id = models.CharField(max_length=21, unique=True)
     name = models.CharField(
         max_length=256,
         blank=True,
     )
-    arn = models.CharField(
-        max_length=2000,
-        blank=True,
-        verbose_name="ARN"
-    )
+    arn = models.CharField(max_length=2000, blank=True, verbose_name="ARN")
     vpc_cidr = models.ForeignKey(
-        blank=True,
-        null=True,
-        on_delete=models.PROTECT,
-        to="ipam.Prefix",
-        verbose_name="Primary CIDR"
+        blank=True, null=True, on_delete=models.PROTECT, to="ipam.Prefix", verbose_name="Primary CIDR"
     )
     # TODO: Secondary CIDRs
     # TODO: IPv6 CIDRs
     owner_account = models.ForeignKey(
-        blank=True,
-        null=True,
-        on_delete=models.PROTECT,
-        to=AWSAccount,
-        verbose_name="Owner Account"
+        blank=True, null=True, on_delete=models.PROTECT, to=AWSAccount, verbose_name="Owner Account"
     )
     # TODO: Region
     # TODO: Resource Tags
     # TODO: Status
-    comments = models.TextField(
-        blank=True
-    )
+    comments = models.TextField(blank=True)
 
     class Meta:
         ordering = ("vpc_id",)
