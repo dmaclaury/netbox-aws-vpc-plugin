@@ -5,6 +5,7 @@ __email__ = "daniel@danielmaclaury.com"
 __version__ = "0.0.3"
 
 
+import importlib.metadata
 from netbox.plugins import PluginConfig
 
 
@@ -12,7 +13,7 @@ class AWSVPCConfig(PluginConfig):
     name = "netbox_aws_vpc_plugin"
     verbose_name = "NetBox AWS VPC Plugin"
     description = "NetBox plugin for modeling AWS VPCs in NetBox"
-    version = "version"
+    version = importlib.metadata.version('netbox-aws-vpc-plugin')
     base_url = "aws-vpc"
     min_version = "4.0.0"
 
