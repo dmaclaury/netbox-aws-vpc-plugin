@@ -9,7 +9,11 @@ NetBox plugin for modeling AWS VPCs in NetBox
 
 ## Features
 
-The features the plugin provides should be listed here.
+This plugin provides the following models in NetBox:
+
+- AWS VPC
+- AWS Subnet
+- AWS Account
 
 ## Compatibility
 
