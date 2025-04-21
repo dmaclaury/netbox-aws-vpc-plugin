@@ -24,12 +24,15 @@
           </tr>
           <tr>
             <th scope="row">Primary CIDR</th>
-            <td>{{ object.vpc_cidr }}</td>
+            <td><a href="{{ object.vpc_cidr.get_absolute_url }}">{{ object.vpc_cidr }}</a></td>
           </tr>
           <tr>
             <th scope="row">Owner Account</th>
             <td><a href="{{ object.owner_account.get_absolute_url }}">{{ object.owner_account }}</a></td>
-            
+          </tr>
+          <tr>
+            <th scope="row">Region</th>
+            <td><a href="{{ object.region.get_absolute_url }}">{{ object.region }}</a></td>
           </tr>
         </table>
       </div>

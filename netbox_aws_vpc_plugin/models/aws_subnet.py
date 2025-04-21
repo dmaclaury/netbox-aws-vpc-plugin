@@ -11,21 +11,38 @@ from .aws_account import AWSAccount
 
 
 class AWSSubnet(NetBoxModel):
-    subnet_id = models.CharField(max_length=47, unique=True)
+    subnet_id = models.CharField(max_length=47, unique=True, verbose_name="Subnet ID")
     name = models.CharField(
         max_length=256,
         blank=True,
     )
     arn = models.CharField(max_length=2000, blank=True, verbose_name="ARN")
     subnet_cidr = models.ForeignKey(
-        blank=True, null=True, on_delete=models.PROTECT, to="ipam.Prefix", verbose_name="CIDR Block"
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        to="ipam.Prefix",
+        verbose_name="CIDR Block",
+        related_name="aws_subnets",
     )
-    vpc = models.ForeignKey(blank=True, null=True, on_delete=models.CASCADE, to=AWSVPC, verbose_name="VPC ID")
+    vpc = models.ForeignKey(
+        blank=True, null=True, on_delete=models.CASCADE, to=AWSVPC, verbose_name="VPC ID", related_name="aws_subnets"
+    )
     # TODO: IPv6 CIDRs
     owner_account = models.ForeignKey(
-        blank=True, null=True, on_delete=models.PROTECT, to=AWSAccount, verbose_name="Owner Account"
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        to=AWSAccount,
+        verbose_name="Owner Account",
+        related_name="aws_subnets",
     )
-    # TODO: Region
+    region = models.ForeignKey(
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        to="dcim.Region",
+    )
     # TODO: Availability Zone
     # TODO: Resource Tags
     # TODO: Status

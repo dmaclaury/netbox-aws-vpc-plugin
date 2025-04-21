@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
 from ipam.api.serializers import PrefixSerializer
+from dcim.api.serializers import RegionSerializer
+from tenancy.api.serializers import TenantSerializer
 from netbox.api.serializers import NetBoxModelSerializer
 from ..models import AWSVPC, AWSSubnet, AWSAccount
 from .nested_serializers import NestedAWSAccountSerializer, NestedAWSVPCSerializer
@@ -10,6 +12,7 @@ class AWSVPCSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name="plugins-api:netbox_aws_vpc_plugin-api:awsvpc-detail")
     vpc_cidr = PrefixSerializer(required=False, allow_null=True, default=None, nested=True)
     owner_account = NestedAWSAccountSerializer()
+    region = RegionSerializer(required=False, allow_null=True, default=None, nested=True)
 
     class Meta:
         model = AWSVPC
@@ -34,6 +37,7 @@ class AWSSubnetSerializer(NetBoxModelSerializer):
     subnet_cidr = PrefixSerializer(required=False, allow_null=True, default=None, nested=True)
     vpc = NestedAWSVPCSerializer()
     owner_account = NestedAWSAccountSerializer()
+    region = RegionSerializer(required=False, allow_null=True, default=None, nested=True)
 
     class Meta:
         model = AWSSubnet
@@ -56,6 +60,7 @@ class AWSSubnetSerializer(NetBoxModelSerializer):
 
 class AWSAccountSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name="plugins-api:netbox_aws_vpc_plugin-api:awsaccount-detail")
+    tenant = TenantSerializer(required=False, allow_null=True, default=None, nested=True)
 
     class Meta:
         model = AWSAccount

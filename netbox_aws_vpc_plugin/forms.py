@@ -1,5 +1,7 @@
 from django import forms
 from ipam.models import Prefix
+from dcim.models import Region
+from tenancy.models import Tenant
 from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm
 from utilities.forms.fields import CommentField, DynamicModelChoiceField
 
@@ -11,22 +13,33 @@ class AWSVPCForm(NetBoxModelForm):
     vpc_cidr = DynamicModelChoiceField(
         queryset=Prefix.objects.all(),
         required=False,
+        label="Primary CIDR",
     )
     owner_account = DynamicModelChoiceField(
         queryset=AWSAccount.objects.all(),
         required=False,
+        label="Owner Account",
+    )
+    region = DynamicModelChoiceField(
+        queryset=Region.objects.all(),
+        required=False,
+        label="Region",
     )
     comments = CommentField()
 
     class Meta:
         model = AWSVPC
-        fields = ("vpc_id", "name", "arn", "vpc_cidr", "owner_account", "comments", "tags")
+        fields = ("vpc_id", "name", "arn", "vpc_cidr", "owner_account", "region", "comments", "tags")
 
 
 class AWSVPCFilterForm(NetBoxModelFilterSetForm):
     model = AWSVPC
 
     owner_account = forms.ModelMultipleChoiceField(queryset=AWSAccount.objects.all(), required=False)
+    region = forms.ModelMultipleChoiceField(
+        queryset=Region.objects.all(),
+        required=False,
+    )
 
 
 # AWS Subnet Forms
@@ -34,20 +47,28 @@ class AWSSubnetForm(NetBoxModelForm):
     vpc = DynamicModelChoiceField(
         queryset=AWSVPC.objects.all(),
         required=False,
+        label="VPC",
     )
     subnet_cidr = DynamicModelChoiceField(
         queryset=Prefix.objects.all(),
         required=False,
+        label="Subnet CIDR",
     )
     owner_account = DynamicModelChoiceField(
         queryset=AWSAccount.objects.all(),
         required=False,
+        label="Owner Account",
+    )
+    region = DynamicModelChoiceField(
+        queryset=Region.objects.all(),
+        required=False,
+        label="Region",
     )
     comments = CommentField()
 
     class Meta:
         model = AWSSubnet
-        fields = ("subnet_id", "vpc", "name", "arn", "subnet_cidr", "owner_account", "comments", "tags")
+        fields = ("subnet_id", "vpc", "name", "arn", "subnet_cidr", "owner_account", "region", "comments", "tags")
 
 
 class AWSSubnetFilterForm(NetBoxModelFilterSetForm):
@@ -55,12 +76,21 @@ class AWSSubnetFilterForm(NetBoxModelFilterSetForm):
 
     vpc = forms.ModelMultipleChoiceField(queryset=AWSVPC.objects.all(), required=False)
     owner_account = forms.ModelMultipleChoiceField(queryset=AWSAccount.objects.all(), required=False)
+    region = forms.ModelMultipleChoiceField(
+        queryset=Region.objects.all(),
+        required=False,
+    )
 
 
 # AWS Account Forms
 class AWSAccountForm(NetBoxModelForm):
+    tenant = DynamicModelChoiceField(
+        queryset=Tenant.objects.all(),
+        required=False,
+        label="Tenant",
+    )
     comments = CommentField()
 
     class Meta:
         model = AWSAccount
-        fields = ("account_id", "name", "arn", "description", "comments", "tags")
+        fields = ("account_id", "name", "arn", "tenant", "description", "comments", "tags")

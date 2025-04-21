@@ -24,7 +24,7 @@
           </tr>
           <tr>
             <th scope="row">CIDR</th>
-            <td>{{ object.subnet_cidr }}</td>
+            <td><a href="{{ object.subnet_cidr.get_absolute_url }}">{{ object.subnet_cidr }}</a></td>
           </tr>
           <tr>
             <th scope="row">VPC</th>
@@ -33,6 +33,10 @@
           <tr>
             <th scope="row">Owner Account</th>
             <td><a href="{{ object.owner_account.get_absolute_url }}">{{ object.owner_account }}</a></td>
+          </tr>
+          <tr>
+            <th scope="row">Region</th>
+            <td><a href="{{ object.region.get_absolute_url }}">{{ object.region }}</a></td>
           </tr>
         </table>
       </div>

@@ -10,21 +10,37 @@ from .aws_account import AWSAccount
 
 
 class AWSVPC(NetBoxModel):
-    vpc_id = models.CharField(max_length=21, unique=True)
+    vpc_id = models.CharField(
+        max_length=21,
+        unique=True,
+        verbose_name="VPC ID",
+    )
     name = models.CharField(
         max_length=256,
         blank=True,
     )
     arn = models.CharField(max_length=2000, blank=True, verbose_name="ARN")
     vpc_cidr = models.ForeignKey(
-        blank=True, null=True, on_delete=models.PROTECT, to="ipam.Prefix", verbose_name="Primary CIDR"
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        to="ipam.Prefix",
+        verbose_name="Primary CIDR",
+        related_name="aws_vpcs",
     )
     # TODO: Secondary CIDRs
     # TODO: IPv6 CIDRs
     owner_account = models.ForeignKey(
-        blank=True, null=True, on_delete=models.PROTECT, to=AWSAccount, verbose_name="Owner Account"
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        to=AWSAccount,
+        verbose_name="Owner Account",
+        related_name="aws_vpcs",
     )
-    # TODO: Region
+    region = models.ForeignKey(
+        blank=True, null=True, on_delete=models.PROTECT, to="dcim.Region", related_name="aws_vpcs"
+    )
     # TODO: Resource Tags
     # TODO: Status
     comments = models.TextField(blank=True)
