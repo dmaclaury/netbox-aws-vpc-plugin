@@ -8,7 +8,7 @@ from utilities.testing.api import APITestCase
 
 class NetBoxAWSVPCVersionTestCase(SimpleTestCase):
     def test_version(self):
-        assert __version__ == "0.0.4"
+        assert __version__ == "0.0.5"
 
 
 class AppTest(APITestCase):

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.5 (2025-04-20)
+
+* Add `region` to AWS Subnet and AWS VPC
+* Add `tenant` to AWS Account
+* Improve labels and verbose names
+
 ## 0.0.4 (2025-04-20)
 
 * Add `verbose_name` to custom models.
