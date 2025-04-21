@@ -2,7 +2,7 @@
 
 __author__ = """Daniel MacLaury"""
 __email__ = "daniel@danielmaclaury.com"
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 
 
 import importlib.metadata
@@ -13,9 +13,11 @@ class AWSVPCConfig(PluginConfig):
     name = "netbox_aws_vpc_plugin"
     verbose_name = "NetBox AWS VPC Plugin"
     description = "NetBox plugin for modeling AWS VPCs in NetBox"
-    version = importlib.metadata.version('netbox-aws-vpc-plugin')
+    version = importlib.metadata.version("netbox-aws-vpc-plugin")
     base_url = "aws-vpc"
     min_version = "4.0.0"
+    author = __author__
+    author_email = __email__
 
 
 config = AWSVPCConfig

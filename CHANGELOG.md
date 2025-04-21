@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.4 (2025-04-20)
+
+* Add `verbose_name` to custom models.
+* Fix `version` in PluginConfig.
+
 ## 0.0.3 (2025-04-20)
 
 * Fix install instructions
