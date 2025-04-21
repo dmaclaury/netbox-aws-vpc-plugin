@@ -15,9 +15,7 @@ class AWSAccount(NetBoxModel):
         blank=True,
     )
     description = models.CharField(max_length=500, blank=True)
-    tenant = models.ForeignKey(
-        to="tenancy.Tenant", on_delete=models.PROTECT, related_name="aws_accounts", blank=True, null=True
-    )
+    tenant = models.ForeignKey(to="tenancy.Tenant", on_delete=models.PROTECT, blank=True, null=True)
     # TODO: Status
     comments = models.TextField(blank=True)
 

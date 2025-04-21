@@ -23,10 +23,13 @@ class AWSSubnet(NetBoxModel):
         on_delete=models.PROTECT,
         to="ipam.Prefix",
         verbose_name="CIDR Block",
-        related_name="aws_subnets",
     )
     vpc = models.ForeignKey(
-        blank=True, null=True, on_delete=models.CASCADE, to=AWSVPC, verbose_name="VPC ID", related_name="aws_subnets"
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        to=AWSVPC,
+        verbose_name="VPC ID",
     )
     # TODO: IPv6 CIDRs
     owner_account = models.ForeignKey(
@@ -35,7 +38,6 @@ class AWSSubnet(NetBoxModel):
         on_delete=models.PROTECT,
         to=AWSAccount,
         verbose_name="Owner Account",
-        related_name="aws_subnets",
     )
     region = models.ForeignKey(
         blank=True,

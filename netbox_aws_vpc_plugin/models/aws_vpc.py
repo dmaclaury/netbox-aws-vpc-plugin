@@ -26,7 +26,6 @@ class AWSVPC(NetBoxModel):
         on_delete=models.PROTECT,
         to="ipam.Prefix",
         verbose_name="Primary CIDR",
-        related_name="aws_vpcs",
     )
     # TODO: Secondary CIDRs
     # TODO: IPv6 CIDRs
@@ -36,11 +35,8 @@ class AWSVPC(NetBoxModel):
         on_delete=models.PROTECT,
         to=AWSAccount,
         verbose_name="Owner Account",
-        related_name="aws_vpcs",
     )
-    region = models.ForeignKey(
-        blank=True, null=True, on_delete=models.PROTECT, to="dcim.Region", related_name="aws_vpcs"
-    )
+    region = models.ForeignKey(blank=True, null=True, on_delete=models.PROTECT, to="dcim.Region")
     # TODO: Resource Tags
     # TODO: Status
     comments = models.TextField(blank=True)
