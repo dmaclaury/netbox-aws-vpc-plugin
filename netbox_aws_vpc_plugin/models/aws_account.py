@@ -24,6 +24,8 @@ class AWSAccount(NetBoxModel):
 
     class Meta:
         ordering = ("account_id",)
+        verbose_name = "AWS Account"
+        verbose_name_plural = "AWS Accounts"
 
     def __str__(self):
         return self.account_id
