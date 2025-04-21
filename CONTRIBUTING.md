@@ -55,8 +55,7 @@ If you are proposing a feature:
 
 * Explain in detail how it would work.
 * Keep the scope as narrow as possible, to make it easier to implement.
-* Remember that this is a volunteer-driven project, and that contributions
-  are welcome :)
+* Remember that this is a volunteer-driven project, and that contributions are welcome
 
 ## Get Started!
 
@@ -65,13 +64,13 @@ Ready to contribute? Here's how to set up `netbox-aws-vpc-plugin` for local deve
 1. Fork the `netbox-aws-vpc-plugin` repo on GitHub.
 2. Clone your fork locally
 
-    ```
+    ```bash
     $ git clone git@github.com:your_name_here/netbox-aws-vpc-plugin.git
     ```
 
 3. Activate the NetBox virtual environment (see the NetBox documentation under [Setting up a Development Environment](https://docs.netbox.dev/en/stable/development/getting-started/)):
 
-    ```
+    ```bash
     $ source ~/.venv/netbox/bin/activate
     ```
 
@@ -79,13 +78,13 @@ Ready to contribute? Here's how to set up `netbox-aws-vpc-plugin` for local deve
 
     To ease development, it is recommended to go ahead and install the plugin at this point using setuptools' develop mode. This will create symbolic links within your Python environment to the plugin development directory. Call setup.py from the plugin's root directory with the develop argument (instead of install):
 
-    ```
+    ```bash
     $ python setup.py develop
     ```
 
 5. Create a branch for local development:
 
-    ```
+    ```bash
     $ git checkout -b name-of-your-bugfix-or-feature
     ```
 
@@ -93,7 +92,7 @@ Ready to contribute? Here's how to set up `netbox-aws-vpc-plugin` for local deve
 
 6. Commit your changes and push your branch to GitHub:
 
-    ```
+    ```bash
     $ git add .
     $ git commit -m "Your detailed description of your changes."
     $ git push origin name-of-your-bugfix-or-feature
@@ -109,13 +108,12 @@ Before you submit a pull request, check that it meets these guidelines:
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in README.md.
-3. The pull request should work for Python 3.8, 3.9, 3.10 and 3.11. Check
+3. The pull request should work for Python 3.10, 3.11, 3.12. Check
    https://github.com/dmaclaury/netbox-aws-vpc-plugin/actions
    and make sure that the tests pass for all supported Python versions.
-
 
 ## Deploying
 
 A reminder for the maintainers on how to deploy.
 Make sure all your changes are committed (including an entry in CHANGELOG.md) and that all tests pass.
-Then in the github project go to `Releases` and create a new release with a new tag.  This will automatically upload the release to pypi:
+Then in the github project go to `Releases` and create a new release with a new tag.  This will automatically upload the release to pypi.
