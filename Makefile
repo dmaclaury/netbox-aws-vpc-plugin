@@ -1,14 +1,16 @@
-sources = NetBox AWS VPC Plugin
+sources = netbox_aws_vpc_plugin
 
 .PHONY: test format lint unittest pre-commit clean
 test: format lint unittest
 
+
 format:
-	isort $(sources) tests
-	black $(sources) tests
+	isort $(sources)
+	black $(sources)
+
 
 lint:
-	flake8 $(sources) tests
+	flake8 $(sources)
 
 pre-commit:
 	pre-commit run --all-files
