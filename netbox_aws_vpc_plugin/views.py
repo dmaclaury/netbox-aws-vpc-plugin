@@ -57,6 +57,14 @@ class AWSSubnetDeleteView(generic.ObjectDeleteView):
 class AWSAccountView(generic.ObjectView):
     queryset = models.AWSAccount.objects.all()
 
+    def get_extra_context(self, request, instance):
+        table = tables.AWSVPCTable(instance.awsvpc_set.all())
+        table.configure(request)
+
+        return {
+            "vpcs_table": table,
+        }
+
 
 class AWSAccountListView(generic.ObjectListView):
     queryset = models.AWSAccount.objects.all()
