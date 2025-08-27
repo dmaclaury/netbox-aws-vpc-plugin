@@ -17,3 +17,22 @@ class AWSAccountStatusChoices(ChoiceSet):
         (STATUS_INACTIVE, "Inactive", "red"),
         (STATUS_PENDING_ACTIVATION, "Pending Activation", "orange"),
     ]
+
+
+"""
+Define the custom status options for AWS VPCs
+"""
+
+
+class AWSVPCStatusChoices(ChoiceSet):
+    key = "AWSVPC.status"
+
+    STATUS_ACTIVE = "ACTIVE"
+    STATUS_INACTIVE = "INACTIVE"
+    STATUS_PLANNED_DEPRECATION = "PLANNED_DEPRECATION"
+
+    CHOICES = [
+        (STATUS_ACTIVE, "Active", "green"),
+        (STATUS_INACTIVE, "Inactive", "red"),
+        (STATUS_PLANNED_DEPRECATION, "Planned Deprecation", "orange"),
+    ]

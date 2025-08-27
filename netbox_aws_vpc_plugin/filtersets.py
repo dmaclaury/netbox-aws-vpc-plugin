@@ -6,7 +6,7 @@ class AWSVPCFilterSet(NetBoxModelFilterSet):
 
     class Meta:
         model = AWSVPC
-        fields = ["vpc_id", "name", "arn", "vpc_cidr", "owner_account", "region"]
+        fields = ["vpc_id", "name", "arn", "vpc_cidr", "owner_account", "region", "status"]
 
 
 class AWSSubnetFilterSet(NetBoxModelFilterSet):

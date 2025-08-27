@@ -7,6 +7,7 @@ from django.urls import reverse
 from netbox.models import NetBoxModel
 
 from .aws_account import AWSAccount
+from netbox_aws_vpc_plugin.choices import AWSVPCStatusChoices
 
 
 class AWSVPC(NetBoxModel):
@@ -38,7 +39,7 @@ class AWSVPC(NetBoxModel):
     )
     region = models.ForeignKey(blank=True, null=True, on_delete=models.PROTECT, to="dcim.Region")
     # TODO: Resource Tags
-    # TODO: Status
+    status = models.CharField(max_length=50, choices=AWSVPCStatusChoices, default=AWSVPCStatusChoices.STATUS_ACTIVE)
     comments = models.TextField(blank=True)
 
     class Meta:

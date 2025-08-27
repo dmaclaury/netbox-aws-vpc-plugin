@@ -10,12 +10,13 @@ class AWSVPCTable(NetBoxTable):
     vpc_cidr = tables.Column(linkify=True)
     owner_account = tables.Column(linkify=True)
     region = tables.Column(linkify=True)
+    status = tables.Column()
     # TODO: Count of subnets
 
     class Meta(NetBoxTable.Meta):
         model = AWSVPC
-        fields = ("pk", "id", "vpc_id", "name", "arn", "vpc_cidr", "owner_account", "region", "actions")
-        default_columns = ("vpc_id", "name", "vpc_cidr", "owner_account", "region")
+        fields = ("pk", "id", "vpc_id", "name", "arn", "vpc_cidr", "owner_account", "region", "status", "actions")
+        default_columns = ("vpc_id", "name", "vpc_cidr", "owner_account", "region", "status")
 
 
 class AWSSubnetTable(NetBoxTable):

@@ -26,6 +26,7 @@ class AWSVPCSerializer(NetBoxModelSerializer):
             "vpc_cidr",
             "owner_account",
             "region",
+            "status",
             "tags",
             "custom_fields",
             "created",
