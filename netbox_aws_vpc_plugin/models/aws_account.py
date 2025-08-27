@@ -5,6 +5,7 @@ Define the django models for AWS Accounts.
 from django.db import models
 from django.urls import reverse
 from netbox.models import NetBoxModel
+from netbox_aws_vpc_plugin.choices import AWSAccountStatusChoices
 
 
 class AWSAccount(NetBoxModel):
@@ -16,8 +17,11 @@ class AWSAccount(NetBoxModel):
     )
     description = models.CharField(max_length=500, blank=True)
     tenant = models.ForeignKey(to="tenancy.Tenant", on_delete=models.PROTECT, blank=True, null=True)
-    # TODO: Status
     comments = models.TextField(blank=True)
+
+    status = models.CharField(
+        max_length=50, choices=AWSAccountStatusChoices, default=AWSAccountStatusChoices.STATUS_ACTIVE
+    )
 
     class Meta:
         ordering = ("account_id",)

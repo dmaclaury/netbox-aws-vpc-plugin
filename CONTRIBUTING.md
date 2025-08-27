@@ -100,6 +100,16 @@ Ready to contribute? Here's how to set up `netbox-aws-vpc-plugin` for local deve
 
 7. Submit a pull request through the GitHub website.
 
+## Ensure to generate migrations
+
+If a model is changed, be sure to generate the necessary migrations
+
+In your development instance of Netbox:
+
+```bash
+python ./manage.py makemigrations netbox_aws_vpc_plugin
+```
+
 ## Pull Request Guidelines
 
 Before you submit a pull request, check that it meets these guidelines:

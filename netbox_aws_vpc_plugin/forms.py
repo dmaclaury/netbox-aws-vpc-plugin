@@ -29,7 +29,7 @@ class AWSVPCForm(NetBoxModelForm):
 
     class Meta:
         model = AWSVPC
-        fields = ("vpc_id", "name", "arn", "vpc_cidr", "owner_account", "region", "comments", "tags")
+        fields = ("vpc_id", "name", "arn", "vpc_cidr", "owner_account", "region", "status", "comments", "tags")
 
 
 class AWSVPCFilterForm(NetBoxModelFilterSetForm):
@@ -68,7 +68,18 @@ class AWSSubnetForm(NetBoxModelForm):
 
     class Meta:
         model = AWSSubnet
-        fields = ("subnet_id", "vpc", "name", "arn", "subnet_cidr", "owner_account", "region", "comments", "tags")
+        fields = (
+            "subnet_id",
+            "vpc",
+            "name",
+            "arn",
+            "subnet_cidr",
+            "owner_account",
+            "region",
+            "status",
+            "comments",
+            "tags",
+        )
 
 
 class AWSSubnetFilterForm(NetBoxModelFilterSetForm):
@@ -93,4 +104,4 @@ class AWSAccountForm(NetBoxModelForm):
 
     class Meta:
         model = AWSAccount
-        fields = ("account_id", "name", "arn", "tenant", "description", "comments", "tags")
+        fields = ("account_id", "name", "arn", "tenant", "description", "status", "comments", "tags")

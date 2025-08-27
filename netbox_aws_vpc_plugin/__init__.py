@@ -2,7 +2,7 @@
 
 __author__ = """Daniel MacLaury"""
 __email__ = "daniel@danielmaclaury.com"
-__version__ = "0.0.5"
+__version__ = "0.0.6"
 
 
 import importlib.metadata

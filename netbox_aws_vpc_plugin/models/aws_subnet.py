@@ -8,6 +8,7 @@ from netbox.models import NetBoxModel
 
 from .aws_vpc import AWSVPC
 from .aws_account import AWSAccount
+from netbox_aws_vpc_plugin.choices import AWSSubnetStatusChoices
 
 
 class AWSSubnet(NetBoxModel):
@@ -47,7 +48,9 @@ class AWSSubnet(NetBoxModel):
     )
     # TODO: Availability Zone
     # TODO: Resource Tags
-    # TODO: Status
+    status = models.CharField(
+        max_length=50, choices=AWSSubnetStatusChoices, default=AWSSubnetStatusChoices.STATUS_ACTIVE
+    )
     comments = models.TextField(blank=True)
 
     class Meta:
