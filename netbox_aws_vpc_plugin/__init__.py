@@ -6,6 +6,7 @@ __version__ = "0.0.6"
 
 
 import importlib.metadata
+
 from netbox.plugins import PluginConfig
 
 

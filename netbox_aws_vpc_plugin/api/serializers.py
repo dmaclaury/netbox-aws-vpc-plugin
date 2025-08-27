@@ -1,10 +1,10 @@
-from rest_framework import serializers
-
-from ipam.api.serializers import PrefixSerializer
 from dcim.api.serializers import RegionSerializer
-from tenancy.api.serializers import TenantSerializer
+from ipam.api.serializers import PrefixSerializer
 from netbox.api.serializers import NetBoxModelSerializer
-from ..models import AWSVPC, AWSSubnet, AWSAccount
+from rest_framework import serializers
+from tenancy.api.serializers import TenantSerializer
+
+from ..models import AWSVPC, AWSAccount, AWSSubnet
 from .nested_serializers import NestedAWSAccountSerializer, NestedAWSVPCSerializer
 
 

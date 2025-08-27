@@ -1,5 +1,6 @@
 from netbox.search import SearchIndex, register_search
-from .models import AWSVPC, AWSSubnet, AWSAccount
+
+from .models import AWSVPC, AWSAccount, AWSSubnet
 
 
 @register_search

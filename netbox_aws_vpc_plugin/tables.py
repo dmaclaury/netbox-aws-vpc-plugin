@@ -1,7 +1,7 @@
 import django_tables2 as tables
 from netbox.tables import NetBoxTable
 
-from .models import AWSVPC, AWSSubnet, AWSAccount
+from .models import AWSVPC, AWSAccount, AWSSubnet
 
 
 class AWSVPCTable(NetBoxTable):

@@ -6,9 +6,10 @@ from django.db import models
 from django.urls import reverse
 from netbox.models import NetBoxModel
 
-from .aws_vpc import AWSVPC
-from .aws_account import AWSAccount
 from netbox_aws_vpc_plugin.choices import AWSSubnetStatusChoices
+
+from .aws_account import AWSAccount
+from .aws_vpc import AWSVPC
 
 
 class AWSSubnet(NetBoxModel):

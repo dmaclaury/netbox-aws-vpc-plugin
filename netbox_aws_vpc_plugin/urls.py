@@ -3,7 +3,6 @@ from netbox.views.generic import ObjectChangeLogView
 
 from . import models, views
 
-
 urlpatterns = (
     # AWS VPC Paths
     path("aws-vpcs/", views.AWSVPCListView.as_view(), name="awsvpc_list"),

@@ -1,9 +1,10 @@
 """Tests for `netbox_aws_vpc_plugin` package."""
 
-from django.urls import reverse
 from django.test import SimpleTestCase
-from netbox_aws_vpc_plugin import __version__
+from django.urls import reverse
 from utilities.testing.api import APITestCase
+
+from netbox_aws_vpc_plugin import __version__
 
 
 class NetBoxAWSVPCVersionTestCase(SimpleTestCase):

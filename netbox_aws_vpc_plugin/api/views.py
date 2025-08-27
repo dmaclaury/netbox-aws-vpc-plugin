@@ -1,7 +1,7 @@
 from netbox.api.viewsets import NetBoxModelViewSet
 
 from .. import filtersets, models
-from .serializers import AWSVPCSerializer, AWSSubnetSerializer, AWSAccountSerializer
+from .serializers import AWSAccountSerializer, AWSSubnetSerializer, AWSVPCSerializer
 
 
 class AWSVPCViewSet(NetBoxModelViewSet):
