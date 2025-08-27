@@ -26,11 +26,24 @@ class AWSSubnetTable(NetBoxTable):
     subnet_cidr = tables.Column(linkify=True)
     owner_account = tables.Column(linkify=True)
     region = tables.Column(linkify=True)
+    status = tables.Column()
 
     class Meta(NetBoxTable.Meta):
         model = AWSSubnet
-        fields = ("pk", "id", "subnet_id", "vpc", "name", "arn", "subnet_cidr", "owner_account", "region", "actions")
-        default_columns = ("subnet_id", "name", "subnet_cidr", "vpc", "owner_account", "region")
+        fields = (
+            "pk",
+            "id",
+            "subnet_id",
+            "vpc",
+            "name",
+            "arn",
+            "subnet_cidr",
+            "owner_account",
+            "region",
+            "status",
+            "actions",
+        )
+        default_columns = ("subnet_id", "name", "subnet_cidr", "vpc", "owner_account", "region", "status")
 
 
 class AWSAccountTable(NetBoxTable):

@@ -54,6 +54,7 @@ class AWSSubnetSerializer(NetBoxModelSerializer):
             "vpc",
             "owner_account",
             "region",
+            "status",
             "tags",
             "custom_fields",
             "created",

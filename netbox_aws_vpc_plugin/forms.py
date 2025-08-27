@@ -68,7 +68,18 @@ class AWSSubnetForm(NetBoxModelForm):
 
     class Meta:
         model = AWSSubnet
-        fields = ("subnet_id", "vpc", "name", "arn", "subnet_cidr", "owner_account", "region", "comments", "tags")
+        fields = (
+            "subnet_id",
+            "vpc",
+            "name",
+            "arn",
+            "subnet_cidr",
+            "owner_account",
+            "region",
+            "status",
+            "comments",
+            "tags",
+        )
 
 
 class AWSSubnetFilterForm(NetBoxModelFilterSetForm):
