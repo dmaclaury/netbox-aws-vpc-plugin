@@ -75,6 +75,7 @@ class AWSAccountSerializer(NetBoxModelSerializer):
             "arn",
             "tenant",
             "description",
+            "status",
             "tags",
             "custom_fields",
             "created",

@@ -36,8 +36,9 @@ class AWSAccountTable(NetBoxTable):
     account_id = tables.Column(linkify=True)
     name = tables.Column()
     tenant = tables.Column(linkify=True)
+    status = tables.Column()
 
     class Meta(NetBoxTable.Meta):
         model = AWSAccount
-        fields = ("pk", "id", "account_id", "name", "arn", "tenant", "actions")
-        default_columns = ("account_id", "name", "tenant")
+        fields = ("pk", "id", "account_id", "name", "arn", "tenant", "status", "actions")
+        default_columns = ("account_id", "name", "tenant", "status")

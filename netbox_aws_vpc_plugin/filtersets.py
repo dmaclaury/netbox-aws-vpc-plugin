@@ -20,4 +20,4 @@ class AWSAccountFilterSet(NetBoxModelFilterSet):
 
     class Meta:
         model = AWSAccount
-        fields = ["account_id", "name", "arn", "tenant"]
+        fields = ["account_id", "name", "arn", "tenant", "status"]

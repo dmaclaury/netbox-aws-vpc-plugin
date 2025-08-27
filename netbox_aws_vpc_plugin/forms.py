@@ -93,4 +93,4 @@ class AWSAccountForm(NetBoxModelForm):
 
     class Meta:
         model = AWSAccount
-        fields = ("account_id", "name", "arn", "tenant", "description", "comments", "tags")
+        fields = ("account_id", "name", "arn", "tenant", "description", "status", "comments", "tags")
