@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.0.6 (pending)
+## 0.0.6 (2025-08-27)
 
 * Add `status` to the custom models
 * Add a table of the VPCs to the account view
