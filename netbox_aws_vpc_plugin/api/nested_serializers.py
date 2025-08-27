@@ -1,7 +1,7 @@
+from netbox.api.serializers import WritableNestedSerializer
 from rest_framework import serializers
 
-from netbox.api.serializers import WritableNestedSerializer
-from ..models import AWSVPC, AWSSubnet, AWSAccount
+from ..models import AWSVPC, AWSAccount, AWSSubnet
 
 
 class NestedAWSVPCSerializer(WritableNestedSerializer):

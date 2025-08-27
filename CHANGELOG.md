@@ -4,6 +4,7 @@
 
 * Add `status` to the custom models
 * Add a table of the VPCs to the account view
+* chore: formatting fixes
 
 ## 0.0.5 (2025-04-20)
 

@@ -6,8 +6,9 @@ from django.db import models
 from django.urls import reverse
 from netbox.models import NetBoxModel
 
-from .aws_account import AWSAccount
 from netbox_aws_vpc_plugin.choices import AWSVPCStatusChoices
+
+from .aws_account import AWSAccount
 
 
 class AWSVPC(NetBoxModel):

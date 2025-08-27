@@ -1,13 +1,12 @@
 sources = netbox_aws_vpc_plugin
 
 .PHONY: test format lint unittest pre-commit clean
-test: format lint unittest
 
+test: format lint unittest
 
 format:
 	isort $(sources)
 	black $(sources)
-
 
 lint:
 	flake8 $(sources)

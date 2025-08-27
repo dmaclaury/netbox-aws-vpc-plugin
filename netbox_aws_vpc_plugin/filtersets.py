@@ -1,5 +1,6 @@
 from netbox.filtersets import NetBoxModelFilterSet
-from .models import AWSVPC, AWSSubnet, AWSAccount
+
+from .models import AWSVPC, AWSAccount, AWSSubnet
 
 
 class AWSVPCFilterSet(NetBoxModelFilterSet):
