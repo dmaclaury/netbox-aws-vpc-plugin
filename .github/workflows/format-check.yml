@@ -1,0 +1,48 @@
+name: Check Code Formatting
+
+on:
+  pull_request:
+    branches: [ main, develop, testing ]
+  push:
+    branches: [ main, develop, testing ]
+
+jobs:
+  format-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements_dev.txt
+
+      - name: Check code formatting with black
+        run: |
+          make format
+          # Check if any files were modified by formatting
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "❌ Code formatting check failed. The following files need formatting:"
+            git status --porcelain
+            echo ""
+            echo "Please run 'make format' locally and commit the changes."
+            echo "Or run 'pre-commit run --all-files' to fix formatting issues."
+            exit 1
+          else
+            echo "✅ Code formatting check passed!"
+          fi
+
+      - name: Check code linting with flake8
+        run: |
+          make lint
+
+      - name: Run pre-commit checks
+        run: |
+          pre-commit run --all-files
