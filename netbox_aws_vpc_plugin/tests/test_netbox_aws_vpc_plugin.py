@@ -6,6 +6,7 @@ from ipam.models import Prefix
 from utilities.testing.api import APITestCase
 
 from netbox_aws_vpc_plugin import __version__
+from netbox_aws_vpc_plugin.choices import AWSAccountStatusChoices, AWSSubnetStatusChoices, AWSVPCStatusChoices
 from netbox_aws_vpc_plugin.models.aws_account import AWSAccount
 from netbox_aws_vpc_plugin.models.aws_subnet import AWSSubnet
 from netbox_aws_vpc_plugin.models.aws_vpc import AWSVPC
@@ -29,6 +30,11 @@ class AWSAccountModelTestCase(APITestCase):
         account = AWSAccount.objects.create(account_id="123456789012", name="Test Account")
         self.assertEqual(account.account_id, "123456789012")
 
+    def test_account_status_choices(self):
+        for status, _, _ in AWSAccountStatusChoices.CHOICES:
+            account = AWSAccount.objects.create(account_id=f"id{status}", name="Test", status=status)
+            self.assertEqual(account.status, status)
+
 
 class AWSVPCModelTestCase(APITestCase):
     def test_create_aws_vpc_with_prefix(self):
@@ -37,6 +43,12 @@ class AWSVPCModelTestCase(APITestCase):
         vpc = AWSVPC.objects.create(vpc_id="vpc-1234567890abcdef0", owner_account=account, vpc_cidr=prefix)
         self.assertEqual(vpc.vpc_id, "vpc-1234567890abcdef0")
         self.assertEqual(str(vpc.vpc_cidr), "10.0.0.0/16")
+
+    def test_vpc_status_choices(self):
+        account = AWSAccount.objects.create(account_id="idVPC", name="Test Account")
+        for status, _, _ in AWSVPCStatusChoices.CHOICES:
+            vpc = AWSVPC.objects.create(vpc_id=f"vpc-{status.lower()}", owner_account=account, status=status)
+            self.assertEqual(vpc.status, status)
 
 
 class AWSSubnetModelTestCase(APITestCase):
@@ -50,3 +62,12 @@ class AWSSubnetModelTestCase(APITestCase):
         )
         self.assertEqual(subnet.subnet_id, "subnet-abcdef1234567890")
         self.assertEqual(str(subnet.subnet_cidr), "10.0.1.0/24")
+
+    def test_subnet_status_choices(self):
+        account = AWSAccount.objects.create(account_id="idSUBNET", name="Test Account")
+        vpc = AWSVPC.objects.create(vpc_id="vpc-for-subnet", owner_account=account)
+        for status, _, _ in AWSSubnetStatusChoices.CHOICES:
+            subnet = AWSSubnet.objects.create(
+                subnet_id=f"subnet-{status.lower()}", vpc=vpc, owner_account=account, status=status
+            )
+            self.assertEqual(subnet.status, status)
