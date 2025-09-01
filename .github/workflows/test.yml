@@ -1,7 +1,6 @@
-name: Test with all supported NetBox versions
+name: Test Netbox main with all supported Python versions
 
 on:
-  # - push
   - pull_request
 
 jobs:
@@ -17,12 +16,12 @@ jobs:
 
         services:
             redis:
-                image: redis
+                image: redis:8.2-alpine
                 ports:
                   - 6379:6379
 
             postgres:
-                image: postgres
+                image: postgres:17.6-alpine
                 env:
                     POSTGRES_USER: netbox
                     POSTGRES_PASSWORD: netbox
