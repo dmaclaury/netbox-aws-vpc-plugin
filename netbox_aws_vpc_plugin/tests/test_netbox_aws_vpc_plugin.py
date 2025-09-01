@@ -162,10 +162,10 @@ class AWSSubnetModelTestCase(APITestCase):
     def test_subnet_status_choices(self):
         account = AWSAccount.objects.create(account_id="333333333333", name="Test Account")
         vpc = AWSVPC.objects.create(vpc_id="vpc-87654321", owner_account=account)
-        for status, _, _ in AWSSubnetStatusChoices.CHOICES:
-            subnet = AWSSubnet.objects.create(
-                subnet_id=f"subnet-{status.lower()}", vpc=vpc, owner_account=account, status=status
-            )
+        for i, (status, _, _) in enumerate(AWSSubnetStatusChoices.CHOICES):
+            # Create unique subnet_id with realistic format to avoid duplicates
+            subnet_id = f"subnet-{i:08x}"
+            subnet = AWSSubnet.objects.create(subnet_id=subnet_id, vpc=vpc, owner_account=account, status=status)
             self.assertEqual(subnet.status, status)
 
     def test_api_crud_subnet(self):
