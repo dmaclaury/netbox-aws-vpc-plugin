@@ -7,7 +7,11 @@ from ipam.models import Prefix
 from utilities.testing.api import APITestCase
 
 from netbox_aws_vpc_plugin import __version__
-from netbox_aws_vpc_plugin.choices import AWSAccountStatusChoices, AWSSubnetStatusChoices, AWSVPCStatusChoices
+from netbox_aws_vpc_plugin.choices import (
+    AWSAccountStatusChoices,
+    AWSSubnetStatusChoices,
+    AWSVPCStatusChoices,
+)
 from netbox_aws_vpc_plugin.models.aws_account import AWSAccount
 from netbox_aws_vpc_plugin.models.aws_subnet import AWSSubnet
 from netbox_aws_vpc_plugin.models.aws_vpc import AWSVPC

@@ -5,7 +5,9 @@ sources = netbox_aws_vpc_plugin
 test: format lint unittest
 
 format:
-	pre-commit run --all-files
+	@echo "Formatting Python code with isort and Black..."
+	isort . --profile black
+	black .
 
 lint:
 	flake8 $(sources)
