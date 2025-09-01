@@ -44,10 +44,10 @@ class AWSAccountModelTestCase(APITestCase):
         self.assertEqual(account.account_id, "123456789012")
 
     def test_account_status_choices(self):
-        max_length = AWSAccount._meta.get_field("account_id").max_length
+        # Use a realistic AWS account ID for all status choices
+        valid_account_id = "123456789012"
         for status, _, _ in AWSAccountStatusChoices.CHOICES:
-            short_id = (status[:max_length]).ljust(max_length, "0")
-            account = AWSAccount.objects.create(account_id=short_id, name="Test", status=status)
+            account = AWSAccount.objects.create(account_id=valid_account_id, name="Test", status=status)
             self.assertEqual(account.status, status)
 
     def test_api_crud_account(self):
