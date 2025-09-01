@@ -32,7 +32,9 @@ class AWSAccountModelTestCase(APITestCase):
 
     def test_account_status_choices(self):
         for status, _, _ in AWSAccountStatusChoices.CHOICES:
-            account = AWSAccount.objects.create(account_id=f"id{status}", name="Test", status=status)
+            # Ensure account_id does not exceed 12 chars
+            short_id = (status[:12]).ljust(12, "0")
+            account = AWSAccount.objects.create(account_id=short_id, name="Test", status=status)
             self.assertEqual(account.status, status)
 
     def test_api_crud_account(self):
@@ -73,7 +75,10 @@ class AWSVPCModelTestCase(APITestCase):
     def test_vpc_status_choices(self):
         account = AWSAccount.objects.create(account_id="idVPC", name="Test Account")
         for status, _, _ in AWSVPCStatusChoices.CHOICES:
-            vpc = AWSVPC.objects.create(vpc_id=f"vpc-{status.lower()}", owner_account=account, status=status)
+            # Ensure vpc_id does not exceed 21 chars
+            base = "vpc-"
+            short_id = (base + status.lower())[:21]
+            vpc = AWSVPC.objects.create(vpc_id=short_id, owner_account=account, status=status)
             self.assertEqual(vpc.status, status)
 
     def test_api_crud_vpc(self):
