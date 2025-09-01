@@ -45,9 +45,10 @@ class AWSAccountModelTestCase(APITestCase):
 
     def test_account_status_choices(self):
         # Use unique AWS account IDs for each status choice to avoid unique constraint violations
-        base_account_id = "123456789012"
+        # Use shorter base account ID to leave room for suffix (max_length=12)
+        base_account_id = "123456789"
         for i, (status, _, _) in enumerate(AWSAccountStatusChoices.CHOICES):
-            # Create unique account_id by appending a suffix
+            # Create unique account_id by appending a suffix (max 3 digits)
             unique_account_id = f"{base_account_id}{i:03d}"
             account = AWSAccount.objects.create(account_id=unique_account_id, name=f"Test {status}", status=status)
             self.assertEqual(account.status, status)
