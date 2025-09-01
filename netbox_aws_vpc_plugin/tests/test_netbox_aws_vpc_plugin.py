@@ -35,6 +35,32 @@ class AWSAccountModelTestCase(APITestCase):
             account = AWSAccount.objects.create(account_id=f"id{status}", name="Test", status=status)
             self.assertEqual(account.status, status)
 
+    def test_api_crud_account(self):
+        # Create
+        url = reverse("plugins-api:netbox_aws_vpc_plugin-api:awsaccount-list")
+        payload = {
+            "account_id": "999999999999",
+            "name": "API Test Account",
+            "status": AWSAccountStatusChoices.STATUS_ACTIVE,
+        }
+        response = self.client.post(url, payload, format="json", **self.header)
+        self.assertEqual(response.status_code, 201)
+        pk = response.data["id"]
+
+        # Read
+        response = self.client.get(f"{url}{pk}/", **self.header)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["account_id"], "999999999999")
+
+        # Update
+        response = self.client.patch(f"{url}{pk}/", {"name": "Updated Account"}, format="json", **self.header)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["name"], "Updated Account")
+
+        # Delete
+        response = self.client.delete(f"{url}{pk}/", **self.header)
+        self.assertEqual(response.status_code, 204)
+
 
 class AWSVPCModelTestCase(APITestCase):
     def test_create_aws_vpc_with_prefix(self):
@@ -49,6 +75,34 @@ class AWSVPCModelTestCase(APITestCase):
         for status, _, _ in AWSVPCStatusChoices.CHOICES:
             vpc = AWSVPC.objects.create(vpc_id=f"vpc-{status.lower()}", owner_account=account, status=status)
             self.assertEqual(vpc.status, status)
+
+    def test_api_crud_vpc(self):
+        account = AWSAccount.objects.create(account_id="888888888888", name="API VPC Account")
+        prefix = Prefix.objects.create(prefix="10.1.0.0/16")
+        url = reverse("plugins-api:netbox_aws_vpc_plugin-api:awsvpc-list")
+        payload = {
+            "vpc_id": "vpc-api-test",
+            "owner_account": account.pk,
+            "vpc_cidr": prefix.pk,
+            "status": AWSVPCStatusChoices.STATUS_ACTIVE,
+        }
+        response = self.client.post(url, payload, format="json", **self.header)
+        self.assertEqual(response.status_code, 201)
+        pk = response.data["id"]
+
+        # Read
+        response = self.client.get(f"{url}{pk}/", **self.header)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["vpc_id"], "vpc-api-test")
+
+        # Update
+        response = self.client.patch(f"{url}{pk}/", {"name": "Updated VPC"}, format="json", **self.header)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["name"], "Updated VPC")
+
+        # Delete
+        response = self.client.delete(f"{url}{pk}/", **self.header)
+        self.assertEqual(response.status_code, 204)
 
 
 class AWSSubnetModelTestCase(APITestCase):
@@ -71,3 +125,33 @@ class AWSSubnetModelTestCase(APITestCase):
                 subnet_id=f"subnet-{status.lower()}", vpc=vpc, owner_account=account, status=status
             )
             self.assertEqual(subnet.status, status)
+
+    def test_api_crud_subnet(self):
+        account = AWSAccount.objects.create(account_id="777777777777", name="API Subnet Account")
+        vpc = AWSVPC.objects.create(vpc_id="vpc-for-subnet-api", owner_account=account)
+        prefix = Prefix.objects.create(prefix="10.2.1.0/24")
+        url = reverse("plugins-api:netbox_aws_vpc_plugin-api:awssubnet-list")
+        payload = {
+            "subnet_id": "subnet-api-test",
+            "vpc": vpc.pk,
+            "owner_account": account.pk,
+            "subnet_cidr": prefix.pk,
+            "status": AWSSubnetStatusChoices.STATUS_ACTIVE,
+        }
+        response = self.client.post(url, payload, format="json", **self.header)
+        self.assertEqual(response.status_code, 201)
+        pk = response.data["id"]
+
+        # Read
+        response = self.client.get(f"{url}{pk}/", **self.header)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["subnet_id"], "subnet-api-test")
+
+        # Update
+        response = self.client.patch(f"{url}{pk}/", {"name": "Updated Subnet"}, format="json", **self.header)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["name"], "Updated Subnet")
+
+        # Delete
+        response = self.client.delete(f"{url}{pk}/", **self.header)
+        self.assertEqual(response.status_code, 204)
