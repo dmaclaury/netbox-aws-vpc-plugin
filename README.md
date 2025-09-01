@@ -24,7 +24,7 @@ This plugin provides the following models in NetBox:
 For adding to a NetBox Docker setup see
 [the general instructions for using netbox-docker with plugins](https://github.com/netbox-community/netbox-docker/wiki/Using-Netbox-Plugins).
 
-The plugin is available as a Python package on PyPi and can be installed with pip  
+The plugin is available as a Python package on PyPi and can be installed with pip
 
 ```bash
 pip install netbox-aws-vpc-plugin

@@ -3,20 +3,34 @@ ci:
   autofix_commit_msg: "style: pre-commit fixes"
 
 repos:
--   repo: https://github.com/psf/black
-    rev: 24.3.0
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
     hooks:
-    - id: black
-      args: [--line-length=120]
-      language_version: python3.12
+      - id: black
+        args: [--line-length=120]
+        language_version: python3.12
 
--   repo: https://github.com/PyCQA/flake8
-    rev: 7.0.0
+  - repo: https://github.com/PyCQA/isort
+    rev: 6.0.1
     hooks:
-    -   id: flake8
+      - id: isort
+        args: [--profile=black, --line-length=120]
+        language_version: python3.12
 
--   repo: https://github.com/mgedmin/check-manifest
-    rev: "0.49"
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.3.0
+    hooks:
+      - id: flake8
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-added-large-files
+
+  - repo: https://github.com/mgedmin/check-manifest
+    rev: "0.50"
     hooks:
       - id: check-manifest
         stages: [manual]
