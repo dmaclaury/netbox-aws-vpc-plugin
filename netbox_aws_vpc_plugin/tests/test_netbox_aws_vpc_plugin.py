@@ -97,7 +97,7 @@ class AWSVPCModelTestCase(APITestCase):
         self.assertEqual(str(vpc.vpc_cidr), "10.0.0.0/16")
 
     def test_vpc_status_choices(self):
-        account = AWSAccount.objects.create(account_id="idVPC", name="Test Account")
+        account = AWSAccount.objects.create(account_id="123456789012", name="Test Account")
         for status, _, _ in AWSVPCStatusChoices.CHOICES:
             # Ensure vpc_id does not exceed 21 chars
             base = "vpc-"
