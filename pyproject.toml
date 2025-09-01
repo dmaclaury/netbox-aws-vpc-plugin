@@ -46,6 +46,9 @@ Tracker = "https://github.com/dmaclaury/netbox-aws-vpc-plugin/issues"
 line-length = 120
 target_version = ['py310', 'py311', 'py312']
 
+[tool.isort]
+profile = "black"
+
 [tool.setuptools.packages.find]
 exclude = ["examples*", "media*", "*.tests*"]
 
