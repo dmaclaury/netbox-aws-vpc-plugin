@@ -5,8 +5,7 @@ sources = netbox_aws_vpc_plugin
 test: format lint unittest
 
 format:
-	black --check $(sources) || black $(sources)
-	isort --check-only $(sources) || isort $(sources)
+	pre-commit run --all-files
 
 lint:
 	flake8 $(sources)
