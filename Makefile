@@ -5,8 +5,8 @@ sources = netbox_aws_vpc_plugin
 test: format lint unittest
 
 format:
-	isort $(sources)
-	black $(sources)
+	black --check $(sources) || black $(sources)
+	isort --check-only $(sources) || isort $(sources)
 
 lint:
 	flake8 $(sources)
