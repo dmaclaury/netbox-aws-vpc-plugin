@@ -1,5 +1,6 @@
 """Tests for `netbox_aws_vpc_plugin` package."""
 
+from django.contrib.auth import get_user_model
 from django.test import SimpleTestCase
 from django.urls import reverse
 from ipam.models import Prefix
@@ -26,6 +27,17 @@ class AppTest(APITestCase):
 
 
 class AWSAccountModelTestCase(APITestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # Create a superuser for API authentication
+        User = get_user_model()
+        cls.superuser = User.objects.create_superuser(
+            username="testsuperuser", email="superuser@example.com", password="supersecret"
+        )
+
+    def setUp(self):
+        self.client.force_login(self.superuser)
+
     def test_create_aws_account(self):
         account = AWSAccount.objects.create(account_id="123456789012", name="Test Account")
         self.assertEqual(account.account_id, "123456789012")
@@ -65,6 +77,16 @@ class AWSAccountModelTestCase(APITestCase):
 
 
 class AWSVPCModelTestCase(APITestCase):
+    @classmethod
+    def setUpTestData(cls):
+        User = get_user_model()
+        cls.superuser = User.objects.create_superuser(
+            username="testsuperuser2", email="superuser2@example.com", password="supersecret2"
+        )
+
+    def setUp(self):
+        self.client.force_login(self.superuser)
+
     def test_create_aws_vpc_with_prefix(self):
         account = AWSAccount.objects.create(account_id="123456789012", name="Test Account")
         prefix = Prefix.objects.create(prefix="10.0.0.0/16")
@@ -111,6 +133,16 @@ class AWSVPCModelTestCase(APITestCase):
 
 
 class AWSSubnetModelTestCase(APITestCase):
+    @classmethod
+    def setUpTestData(cls):
+        User = get_user_model()
+        cls.superuser = User.objects.create_superuser(
+            username="testsuperuser3", email="superuser3@example.com", password="supersecret3"
+        )
+
+    def setUp(self):
+        self.client.force_login(self.superuser)
+
     def test_create_aws_subnet_with_prefix(self):
         account = AWSAccount.objects.create(account_id="123456789012", name="Test Account")
         vpc_prefix = Prefix.objects.create(prefix="10.0.0.0/16")
