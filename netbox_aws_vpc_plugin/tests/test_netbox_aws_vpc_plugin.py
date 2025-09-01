@@ -93,19 +93,18 @@ class AWSVPCModelTestCase(APITestCase):
         self.client.force_login(self.superuser)
 
     def test_create_aws_vpc_with_prefix(self):
-        account = AWSAccount.objects.create(account_id="123456789012", name="Test Account")
+        account = AWSAccount.objects.create(account_id="111111111111", name="Test Account")
         prefix = Prefix.objects.create(prefix="10.0.0.0/16")
-        vpc = AWSVPC.objects.create(vpc_id="vpc-1234567890abcdef0", owner_account=account, vpc_cidr=prefix)
-        self.assertEqual(vpc.vpc_id, "vpc-1234567890abcdef0")
+        vpc = AWSVPC.objects.create(vpc_id="vpc-12345678", owner_account=account, vpc_cidr=prefix)
+        self.assertEqual(vpc.vpc_id, "vpc-12345678")
         self.assertEqual(str(vpc.vpc_cidr), "10.0.0.0/16")
 
     def test_vpc_status_choices(self):
         account = AWSAccount.objects.create(account_id="123456789012", name="Test Account")
-        for status, _, _ in AWSVPCStatusChoices.CHOICES:
-            # Ensure vpc_id does not exceed 21 chars
-            base = "vpc-"
-            short_id = (base + status.lower())[:21]
-            vpc = AWSVPC.objects.create(vpc_id=short_id, owner_account=account, status=status)
+        for i, (status, _, _) in enumerate(AWSVPCStatusChoices.CHOICES):
+            # Create unique vpc_id with realistic format
+            vpc_id = f"vpc-{i:08x}"
+            vpc = AWSVPC.objects.create(vpc_id=vpc_id, owner_account=account, status=status)
             self.assertEqual(vpc.status, status)
 
     def test_api_crud_vpc(self):
@@ -113,7 +112,7 @@ class AWSVPCModelTestCase(APITestCase):
         prefix = Prefix.objects.create(prefix="10.1.0.0/16")
         url = reverse("plugins-api:netbox_aws_vpc_plugin-api:awsvpc-list")
         payload = {
-            "vpc_id": "vpc-api-test",
+            "vpc_id": "vpc-apitest",
             "owner_account": account.pk,
             "vpc_cidr": prefix.pk,
             "status": AWSVPCStatusChoices.STATUS_ACTIVE,
@@ -125,7 +124,7 @@ class AWSVPCModelTestCase(APITestCase):
         # Read
         response = self.client.get(f"{url}{pk}/", **self.header)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data["vpc_id"], "vpc-api-test")
+        self.assertEqual(response.data["vpc_id"], "vpc-apitest")
 
         # Update
         response = self.client.patch(f"{url}{pk}/", {"name": "Updated VPC"}, format="json", **self.header)
@@ -150,9 +149,9 @@ class AWSSubnetModelTestCase(APITestCase):
         self.client.force_login(self.superuser)
 
     def test_create_aws_subnet_with_prefix(self):
-        account = AWSAccount.objects.create(account_id="123456789012", name="Test Account")
+        account = AWSAccount.objects.create(account_id="222222222222", name="Test Account")
         vpc_prefix = Prefix.objects.create(prefix="10.0.0.0/16")
-        vpc = AWSVPC.objects.create(vpc_id="vpc-1234567890abcdef0", owner_account=account, vpc_cidr=vpc_prefix)
+        vpc = AWSVPC.objects.create(vpc_id="vpc-12345678", owner_account=account, vpc_cidr=vpc_prefix)
         subnet_prefix = Prefix.objects.create(prefix="10.0.1.0/24")
         subnet = AWSSubnet.objects.create(
             subnet_id="subnet-abcdef1234567890", vpc=vpc, owner_account=account, subnet_cidr=subnet_prefix
@@ -161,8 +160,8 @@ class AWSSubnetModelTestCase(APITestCase):
         self.assertEqual(str(subnet.subnet_cidr), "10.0.1.0/24")
 
     def test_subnet_status_choices(self):
-        account = AWSAccount.objects.create(account_id="123456789012", name="Test Account")
-        vpc = AWSVPC.objects.create(vpc_id="vpc-for-subnet", owner_account=account)
+        account = AWSAccount.objects.create(account_id="333333333333", name="Test Account")
+        vpc = AWSVPC.objects.create(vpc_id="vpc-87654321", owner_account=account)
         for status, _, _ in AWSSubnetStatusChoices.CHOICES:
             subnet = AWSSubnet.objects.create(
                 subnet_id=f"subnet-{status.lower()}", vpc=vpc, owner_account=account, status=status
@@ -171,7 +170,7 @@ class AWSSubnetModelTestCase(APITestCase):
 
     def test_api_crud_subnet(self):
         account = AWSAccount.objects.create(account_id="777777777777", name="API Subnet Account")
-        vpc = AWSVPC.objects.create(vpc_id="vpc-for-subnet-api", owner_account=account)
+        vpc = AWSVPC.objects.create(vpc_id="vpc-subnetapi", owner_account=account)
         prefix = Prefix.objects.create(prefix="10.2.1.0/24")
         url = reverse("plugins-api:netbox_aws_vpc_plugin-api:awssubnet-list")
         payload = {
