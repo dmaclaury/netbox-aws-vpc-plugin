@@ -1,10 +1,13 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.222.0/containers/python-3-miniconda
 {
-    "name": "Python Environment",
+    "name": "NetBox AWS VPC Plugin Dev Environment",
     "build": {
         "dockerfile": "Dockerfile",
         "context": ".."
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {},
+        "ghcr.io/devcontainers/features/github-cli:1": {},
+        "ghcr.io/devcontainers/features/aws-cli:1": {}
     },
     "customizations": {
         "vscode": {
@@ -21,24 +24,51 @@
                 "ms-vsliveshare.vsliveshare",
                 "ryanluker.vscode-coverage-gutters",
                 "bungcip.better-toml",
-                "GitHub.copilot"
+                "GitHub.copilot",
+                "ms-python.debugpy",
+                "ms-python.test-adapter",
+                "redhat.vscode-yaml",
+                "ms-vscode.vscode-json",
+                "bradlc.vscode-tailwindcss",
+                "ms-vscode.vscode-typescript-next"
             ],
             "settings": {
                 "python.defaultInterpreterPath": "/usr/local/bin/python",
-                "black-formatter.path": [
-                    "/usr/local/py-utils/bin/black"
-                ],
-                "pylint.path": [
-                    "/usr/local/py-utils/bin/pylint"
-                ],
-                "flake8.path": [
-                    "/usr/local/py-utils/bin/flake8"
-                ],
-                "isort.path": [
-                    "/usr/local/py-utils/bin/isort"
-                ]
+                "python.testing.pytestEnabled": true,
+                "python.testing.pytestArgs": ["netbox_aws_vpc_plugin"],
+                "python.linting.enabled": true,
+                "python.linting.pylintEnabled": true,
+                "python.linting.flake8Enabled": true,
+                "python.formatting.provider": "black",
+                "python.formatting.blackArgs": ["--line-length=120"],
+                "python.sortImports.args": ["--profile", "black", "--line-length=120"],
+                "files.associations": {
+                    "*.py": "python",
+                    "*.toml": "toml",
+                    "*.yaml": "yaml",
+                    "*.yml": "yaml"
+                },
+                "editor.formatOnSave": true,
+                "editor.codeActionsOnSave": {
+                    "source.organizeImports": true
+                }
             }
         }
     },
-    "onCreateCommand": "pre-commit install-hooks"
+    "forwardPorts": [8000, 5432, 6379],
+    "portsAttributes": {
+        "8000": {
+            "label": "NetBox",
+            "onAutoForward": "notify"
+        },
+        "5432": {
+            "label": "PostgreSQL"
+        },
+        "6379": {
+            "label": "Redis"
+        }
+    },
+    "postCreateCommand": "bash .devcontainer/setup.sh",
+    "postStartCommand": "bash .devcontainer/start-services.sh",
+    "remoteUser": "vscode"
 }
