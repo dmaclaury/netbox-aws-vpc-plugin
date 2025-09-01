@@ -1,0 +1,55 @@
+name: Check Code Formatting
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches: [ main, develop, testing ]
+  push:
+    branches: [ main, develop, testing ]
+
+jobs:
+  format-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements_dev.txt
+
+      - name: Check code formatting
+        run: |
+          echo "Checking code formatting..."
+
+          # Check isort sorting without modifying files (using black profile)
+          echo "Running isort check..."
+          isort --check-only . --profile black || {
+            echo "❌ isort sorting check failed. Run 'make format' locally to fix."
+            exit 1
+          }
+
+          # Check black formatting without modifying files
+          echo "Running black check..."
+          black --check . || {
+            echo "❌ Black formatting check failed. Run 'make format' locally to fix."
+            exit 1
+          }
+
+          echo "✅ Code formatting check passed!"
+
+      - name: Check code linting with flake8
+        run: |
+          make lint
+
+      - name: Run pre-commit checks
+        run: |
+          pre-commit run --all-files
