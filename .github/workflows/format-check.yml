@@ -24,20 +24,25 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements_dev.txt
 
-      - name: Check code formatting with black
+      - name: Check code formatting
         run: |
-          make format
-          # Check if any files were modified by formatting
-          if [ -n "$(git status --porcelain)" ]; then
-            echo "❌ Code formatting check failed. The following files need formatting:"
-            git status --porcelain
-            echo ""
-            echo "Please run 'make format' locally and commit the changes."
-            echo "Or run 'pre-commit run --all-files' to fix formatting issues."
+          echo "Checking code formatting..."
+
+          # Check black formatting without modifying files
+          echo "Running black check..."
+          black --check netbox_aws_vpc_plugin/ || {
+            echo "❌ Black formatting check failed. Run 'make format' locally to fix."
             exit 1
-          else
-            echo "✅ Code formatting check passed!"
-          fi
+          }
+
+          # Check isort sorting without modifying files
+          echo "Running isort check..."
+          isort --check-only netbox_aws_vpc_plugin/ || {
+            echo "❌ isort sorting check failed. Run 'make format' locally to fix."
+            exit 1
+          }
+
+          echo "✅ Code formatting check passed!"
 
       - name: Check code linting with flake8
         run: |
