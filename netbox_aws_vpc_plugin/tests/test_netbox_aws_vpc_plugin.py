@@ -158,7 +158,7 @@ class AWSSubnetModelTestCase(APITestCase):
         self.assertEqual(str(subnet.subnet_cidr), "10.0.1.0/24")
 
     def test_subnet_status_choices(self):
-        account = AWSAccount.objects.create(account_id="idSUBNET", name="Test Account")
+        account = AWSAccount.objects.create(account_id="123456789012", name="Test Account")
         vpc = AWSVPC.objects.create(vpc_id="vpc-for-subnet", owner_account=account)
         for status, _, _ in AWSSubnetStatusChoices.CHOICES:
             subnet = AWSSubnet.objects.create(
