@@ -36,6 +36,7 @@ class AWSAccountModelTestCase(APITestCase):
         )
 
     def setUp(self):
+        super().setUp()
         self.client.force_login(self.superuser)
 
     def test_create_aws_account(self):
@@ -85,6 +86,7 @@ class AWSVPCModelTestCase(APITestCase):
         )
 
     def setUp(self):
+        super().setUp()
         self.client.force_login(self.superuser)
 
     def test_create_aws_vpc_with_prefix(self):
@@ -141,6 +143,7 @@ class AWSSubnetModelTestCase(APITestCase):
         )
 
     def setUp(self):
+        super().setUp()
         self.client.force_login(self.superuser)
 
     def test_create_aws_subnet_with_prefix(self):
