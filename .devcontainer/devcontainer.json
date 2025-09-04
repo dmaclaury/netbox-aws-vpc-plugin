@@ -9,6 +9,10 @@
         "ghcr.io/devcontainers/features/github-cli:1": {},
         "ghcr.io/devcontainers/features/aws-cli:1": {}
     },
+    "dockerComposeFile": [
+        ".devcontainer/docker-compose.yml"
+    ],
+    "runServices": ["postgres", "redis"],
     "customizations": {
         "vscode": {
             "extensions": [

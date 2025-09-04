@@ -37,21 +37,21 @@ DATABASE = {
     'NAME': 'netbox',
     'USER': 'netbox',
     'PASSWORD': 'netbox',
-    'HOST': 'localhost',
+    'HOST': 'postgres',
     'PORT': '5432',
 }
 
 # Redis configuration
 REDIS = {
     'webhooks': {
-        'HOST': 'localhost',
+        'HOST': 'redis',
         'PORT': 6379,
         'PASSWORD': '',
         'DATABASE': '0',
         'SSL': False,
     },
     'caching': {
-        'HOST': 'localhost',
+        'HOST': 'redis',
         'PORT': 6379,
         'PASSWORD': '',
         'DATABASE': '1',
@@ -159,7 +159,7 @@ DATABASES = {
         'NAME': 'netbox',
         'USER': 'netbox',
         'PASSWORD': 'netbox',
-        'HOST': 'localhost',
+        'HOST': 'postgres',
         'PORT': '5432',
     }
 }

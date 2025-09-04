@@ -6,14 +6,15 @@ echo "🚀 Starting development services..."
 # Function to check if a service is running
 check_service() {
     local service_name=$1
-    local port=$2
+    local host=$2
+    local port=$3
     local max_attempts=30
     local attempt=1
 
     echo "⏳ Waiting for $service_name to be ready..."
 
     while [ $attempt -le $max_attempts ]; do
-        if nc -z localhost $port 2>/dev/null; then
+        if nc -z "$host" "$port" 2>/dev/null; then
             echo "✅ $service_name is ready on port $port"
             return 0
         fi
@@ -27,30 +28,24 @@ check_service() {
     return 1
 }
 
-# Start PostgreSQL (if not already running)
-if ! pg_isready -h localhost -p 5432 >/dev/null 2>&1; then
+# Start PostgreSQL (wait for compose service)
+if ! pg_isready -h postgres -p 5432 >/dev/null 2>&1; then
     echo "🐘 Starting PostgreSQL..."
-    # Note: In a real devcontainer, you'd typically use Docker Compose or similar
-    # For now, we'll just check if it's available
-    echo "⚠️  PostgreSQL not running. Please ensure PostgreSQL is available on localhost:5432"
-    echo "   You can start it with: sudo systemctl start postgresql"
+    echo "⚠️  PostgreSQL not running. Waiting for docker-compose service 'postgres'..."
 else
     echo "✅ PostgreSQL is already running"
 fi
 
-# Start Redis (if not already running)
-if ! nc -z localhost 6379 2>/dev/null; then
+# Start Redis (wait for compose service)
+if ! nc -z redis 6379 2>/dev/null; then
     echo "🔴 Starting Redis..."
-    # Note: In a real devcontainer, you'd typically use Docker Compose or similar
-    # For now, we'll just check if it's available
-    echo "⚠️  Redis not running. Please ensure Redis is available on localhost:6379"
-    echo "   You can start it with: sudo systemctl start redis"
+    echo "⚠️  Redis not running. Waiting for docker-compose service 'redis'..."
 else
     echo "✅ Redis is already running"
 fi
 
 # Wait for services to be ready
-if check_service "PostgreSQL" 5432 && check_service "Redis" 6379; then
+if check_service "PostgreSQL" postgres 5432 && check_service "Redis" redis 6379; then
     echo "🎉 All services are ready!"
 
     # Run database migrations
