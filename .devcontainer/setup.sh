@@ -3,6 +3,16 @@ set -e
 
 echo "🚀 Setting up NetBox AWS VPC Plugin development environment..."
 
+# Ensure dev Python tools are installed (includes pre-commit)
+echo "📦 Installing development requirements..."
+cd /workspaces/netbox-aws-vpc-plugin || cd "$HOME/workspaces/netbox-aws-vpc-plugin" || true
+python -m pip install --upgrade pip
+if [ -f requirements_dev.txt ]; then
+    pip install -r requirements_dev.txt
+else
+    pip install pre-commit
+fi
+
 # Create NetBox configuration
 mkdir -p /opt/netbox/netbox/netbox
 

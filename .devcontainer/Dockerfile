@@ -4,25 +4,13 @@ FROM mcr.microsoft.com/devcontainers/python:3.12
 RUN apt-get update && apt-get install -y \
     postgresql-client \
     redis-tools \
+    netcat-openbsd \
     curl \
     git \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
-RUN python -m pip install --upgrade pip \
-    && python -m pip install \
-    'flit>=3.8.0' \
-    'netbox>=4.0.0' \
-    'django>=4.2.0' \
-    'psycopg2-binary' \
-    'redis' \
-    'boto3' \
-    'botocore' \
-    'pytest' \
-    'pytest-django' \
-    'pytest-cov' \
-    'factory-boy' \
-    'faker'
+RUN python -m pip install --upgrade pip
 
 # Set environment variables
 ENV FLIT_ROOT_INSTALL=1
@@ -31,21 +19,10 @@ ENV DJANGO_SETTINGS_MODULE=netbox.settings
 ENV NETBOX_CONFIG=/opt/netbox/netbox/netbox/configuration.py
 
 # Create NetBox configuration directory
-RUN mkdir -p /opt/netbox/netbox/netbox
+RUN mkdir -p /opt/netbox/netbox/netbox && chown -R vscode:vscode /opt/netbox
 
-# Copy and install project dependencies
-COPY pyproject.toml requirements_dev.txt ./
-RUN python -m flit install --only-deps --deps develop \
-    && pip install -r requirements_dev.txt
+## Project dependencies are installed during container creation (see postCreateCommand)
 
-# Install pre-commit hooks
-RUN pre-commit install-hooks
+## Pre-commit hooks are installed during container creation (see setup.sh)
 
-# Create a development user
-RUN useradd -m -s /bin/bash vscode \
-    && usermod -aG sudo vscode \
-    && echo "vscode ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-
-# Switch to vscode user
-USER vscode
-WORKDIR /workspaces/netbox-aws-vpc-plugin
+## Base image already provides the vscode user; working directory is set by devcontainer
