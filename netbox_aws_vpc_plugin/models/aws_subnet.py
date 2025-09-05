@@ -48,7 +48,6 @@ class AWSSubnet(NetBoxModel):
         to="dcim.Region",
     )
     # TODO: Availability Zone
-    # TODO: Resource Tags
     status = models.CharField(
         max_length=50, choices=AWSSubnetStatusChoices, default=AWSSubnetStatusChoices.STATUS_ACTIVE
     )

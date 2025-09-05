@@ -39,7 +39,6 @@ class AWSVPC(NetBoxModel):
         verbose_name="Owner Account",
     )
     region = models.ForeignKey(blank=True, null=True, on_delete=models.PROTECT, to="dcim.Region")
-    # TODO: Resource Tags
     status = models.CharField(max_length=50, choices=AWSVPCStatusChoices, default=AWSVPCStatusChoices.STATUS_ACTIVE)
     comments = models.TextField(blank=True)
 
