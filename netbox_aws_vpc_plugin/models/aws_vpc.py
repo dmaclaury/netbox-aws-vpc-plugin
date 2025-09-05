@@ -7,6 +7,7 @@ from django.urls import reverse
 from netbox.models import NetBoxModel
 
 from netbox_aws_vpc_plugin.choices import AWSVPCStatusChoices
+from netbox_aws_vpc_plugin.constants import IPV4_PREFIXES
 
 from .aws_account import AWSAccount
 
@@ -28,6 +29,7 @@ class AWSVPC(NetBoxModel):
         on_delete=models.PROTECT,
         to="ipam.Prefix",
         verbose_name="Primary CIDR",
+        limit_choices_to=IPV4_PREFIXES,
     )
     # TODO: Secondary CIDRs
     # TODO: IPv6 CIDRs
@@ -39,7 +41,6 @@ class AWSVPC(NetBoxModel):
         verbose_name="Owner Account",
     )
     region = models.ForeignKey(blank=True, null=True, on_delete=models.PROTECT, to="dcim.Region")
-    # TODO: Resource Tags
     status = models.CharField(max_length=50, choices=AWSVPCStatusChoices, default=AWSVPCStatusChoices.STATUS_ACTIVE)
     comments = models.TextField(blank=True)
 

@@ -163,6 +163,23 @@ class AWSSubnetModelTestCase(APITestCase):
         self.assertEqual(subnet.subnet_id, "subnet-abcdef1234567890")
         self.assertEqual(str(subnet.subnet_cidr), "10.0.1.0/24")
 
+    def test_create_aws_subnet_with_ipv6_prefix(self):
+        account = AWSAccount.objects.create(account_id="222222222222", name="Test Account")
+        vpc_prefix = Prefix.objects.create(prefix="10.0.0.0/16")
+        vpc = AWSVPC.objects.create(vpc_id="vpc-12345678", owner_account=account, vpc_cidr=vpc_prefix)
+        subnet_prefix = Prefix.objects.create(prefix="10.0.1.0/24")
+        subnet_ipv6_prefix = Prefix.objects.create(prefix="2001:db8::/64")
+        subnet = AWSSubnet.objects.create(
+            subnet_id="subnet-abcdef1234567890",
+            vpc=vpc,
+            owner_account=account,
+            subnet_cidr=subnet_prefix,
+            subnet_ipv6_cidr=subnet_ipv6_prefix,
+        )
+        self.assertEqual(subnet.subnet_id, "subnet-abcdef1234567890")
+        self.assertEqual(str(subnet.subnet_cidr), "10.0.1.0/24")
+        self.assertEqual(str(subnet.subnet_ipv6_cidr), "2001:db8::/64")
+
     def test_subnet_status_choices(self):
         account = AWSAccount.objects.create(account_id="333333333333", name="Test Account")
         vpc = AWSVPC.objects.create(vpc_id="vpc-87654321", owner_account=account)
@@ -176,12 +193,14 @@ class AWSSubnetModelTestCase(APITestCase):
         account = AWSAccount.objects.create(account_id="777777777777", name="API Subnet Account")
         vpc = AWSVPC.objects.create(vpc_id="vpc-subnetapi", owner_account=account)
         prefix = Prefix.objects.create(prefix="10.2.1.0/24")
+        ipv6_prefix = Prefix.objects.create(prefix="2001:db8::/64")
         url = reverse("plugins-api:netbox_aws_vpc_plugin-api:awssubnet-list")
         payload = {
             "subnet_id": "subnet-api-test",
             "vpc": vpc.pk,
             "owner_account": account.pk,
             "subnet_cidr": prefix.pk,
+            "subnet_ipv6_cidr": ipv6_prefix.pk,
             "status": AWSSubnetStatusChoices.STATUS_ACTIVE,
         }
         response = self.client.post(url, payload, format="json", **self.header)

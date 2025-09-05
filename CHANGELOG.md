@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.7 (pending)
+
+* Adds IPv6 CIDR to AWS Subnets
+* Adds `IPV4_PREFIXES` and `IPV6_PREFIXES` constants to validate IP family for Subnets and VPCs
+
 ## 0.0.6 (2025-08-27)
 
 * Add `status` to the custom models

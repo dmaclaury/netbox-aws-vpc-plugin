@@ -23,8 +23,12 @@
             <td>{{ object.arn }}</td>
           </tr>
           <tr>
-            <th scope="row">CIDR</th>
+            <th scope="row">IPv4 CIDR</th>
             <td><a href="{{ object.subnet_cidr.get_absolute_url }}">{{ object.subnet_cidr }}</a></td>
+          </tr>
+          <tr>
+            <th scope="row">IPv6 CIDR</th>
+            <td><a href="{{ object.subnet_ipv6_cidr.get_absolute_url }}">{{ object.subnet_ipv6_cidr }}</a></td>
           </tr>
           <tr>
             <th scope="row">VPC</th>

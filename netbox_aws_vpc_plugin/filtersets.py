@@ -14,7 +14,17 @@ class AWSSubnetFilterSet(NetBoxModelFilterSet):
 
     class Meta:
         model = AWSSubnet
-        fields = ["subnet_id", "name", "arn", "subnet_cidr", "vpc", "owner_account", "region", "status"]
+        fields = [
+            "subnet_id",
+            "name",
+            "arn",
+            "subnet_cidr",
+            "subnet_ipv6_cidr",
+            "vpc",
+            "owner_account",
+            "region",
+            "status",
+        ]
 
 
 class AWSAccountFilterSet(NetBoxModelFilterSet):

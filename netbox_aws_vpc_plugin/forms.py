@@ -5,13 +5,15 @@ from netbox.forms import NetBoxModelFilterSetForm, NetBoxModelForm
 from tenancy.models import Tenant
 from utilities.forms.fields import CommentField, DynamicModelChoiceField
 
+from .constants import IPV4_PREFIXES, IPV6_PREFIXES
 from .models import AWSVPC, AWSAccount, AWSSubnet
 
 
 # AWS VPC Forms
 class AWSVPCForm(NetBoxModelForm):
     vpc_cidr = DynamicModelChoiceField(
-        queryset=Prefix.objects.all(),
+        queryset=Prefix.objects.filter(IPV4_PREFIXES),
+        query_params={"family": 4},
         required=False,
         label="Primary CIDR",
     )
@@ -50,9 +52,16 @@ class AWSSubnetForm(NetBoxModelForm):
         label="VPC",
     )
     subnet_cidr = DynamicModelChoiceField(
-        queryset=Prefix.objects.all(),
+        queryset=Prefix.objects.filter(IPV4_PREFIXES),
+        query_params={"family": 4},
         required=False,
-        label="Subnet CIDR",
+        label="IPv4 Subnet CIDR",
+    )
+    subnet_ipv6_cidr = DynamicModelChoiceField(
+        queryset=Prefix.objects.filter(IPV6_PREFIXES),
+        query_params={"family": 6},
+        required=False,
+        label="IPv6 Subnet CIDR",
     )
     owner_account = DynamicModelChoiceField(
         queryset=AWSAccount.objects.all(),
@@ -74,6 +83,7 @@ class AWSSubnetForm(NetBoxModelForm):
             "name",
             "arn",
             "subnet_cidr",
+            "subnet_ipv6_cidr",
             "owner_account",
             "region",
             "status",
