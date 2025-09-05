@@ -7,6 +7,7 @@ from django.urls import reverse
 from netbox.models import NetBoxModel
 
 from netbox_aws_vpc_plugin.choices import AWSSubnetStatusChoices
+from netbox_aws_vpc_plugin.constants import IPV4_PREFIXES, IPV6_PREFIXES
 
 from .aws_account import AWSAccount
 from .aws_vpc import AWSVPC
@@ -19,13 +20,27 @@ class AWSSubnet(NetBoxModel):
         blank=True,
     )
     arn = models.CharField(max_length=2000, blank=True, verbose_name="ARN")
+    # Primary CIDR
     subnet_cidr = models.ForeignKey(
         blank=True,
         null=True,
         on_delete=models.PROTECT,
         to="ipam.Prefix",
         verbose_name="CIDR Block",
+        related_name="aws_subnet_ipv4",
+        limit_choices_to=IPV4_PREFIXES,
     )
+    # IPv6 CIDR
+    subnet_ipv6_cidr = models.ForeignKey(
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        to="ipam.Prefix",
+        verbose_name="IPv6 CIDR Block",
+        related_name="aws_subnet_ipv6",
+        limit_choices_to=IPV6_PREFIXES,
+    )
+    # VPC the subnet is part of
     vpc = models.ForeignKey(
         blank=True,
         null=True,
@@ -33,7 +48,6 @@ class AWSSubnet(NetBoxModel):
         to=AWSVPC,
         verbose_name="VPC ID",
     )
-    # TODO: IPv6 CIDRs
     owner_account = models.ForeignKey(
         blank=True,
         null=True,

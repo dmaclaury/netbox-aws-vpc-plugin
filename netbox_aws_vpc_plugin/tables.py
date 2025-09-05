@@ -38,6 +38,7 @@ class AWSSubnetTable(NetBoxTable):
             "name",
             "arn",
             "subnet_cidr",
+            "subnet_ipv6_cidr",
             "owner_account",
             "region",
             "status",
