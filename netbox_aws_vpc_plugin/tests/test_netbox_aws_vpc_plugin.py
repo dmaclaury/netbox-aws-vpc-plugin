@@ -19,7 +19,7 @@ from netbox_aws_vpc_plugin.models.aws_vpc import AWSVPC
 
 class NetBoxAWSVPCVersionTestCase(SimpleTestCase):
     def test_version(self):
-        assert __version__ == "0.0.6"
+        assert __version__ == "0.0.7"
 
 
 class AppTest(APITestCase):
