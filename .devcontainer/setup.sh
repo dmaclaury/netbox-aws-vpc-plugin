@@ -224,6 +224,36 @@ echo "💡 NetBox AWS VPC Plugin dev commands available! Type 'dev-help' to see 
 echo ""
 EOF
 
+cat >> ~/.zshrc << EOF
+# NetBox AWS VPC Plugin Development Aliases
+export PATH="/opt/netbox/venv/bin:\$PATH"
+export SECRET_KEY="\${SECRET_KEY:-dummydummydummydummydummydummydummydummydummydummydummydummy}"
+export DEBUG="\${DEBUG:-True}"
+alias netbox-start="/workspaces/netbox-aws-vpc-plugin/.devcontainer/start-netbox.sh --background"
+alias netbox-run="/workspaces/netbox-aws-vpc-plugin/.devcontainer/start-netbox.sh"
+alias netbox-restart="netbox-stop && sleep 1 && netbox-start"
+alias netbox-reload="cd /workspaces/netbox-aws-vpc-plugin && uv pip install -e . && netbox-restart"
+alias netbox-stop="[ -f /tmp/netbox.pid ] && kill \$(cat /tmp/netbox.pid) && rm /tmp/netbox.pid && echo 'NetBox stopped' || echo 'NetBox not running'"
+alias netbox-logs="tail -f /tmp/netbox.log"
+alias netbox-status="[ -f /tmp/netbox.pid ] && kill -0 \$(cat /tmp/netbox.pid) 2>/dev/null && echo 'NetBox is running (PID: '\$(cat /tmp/netbox.pid)')' || echo 'NetBox is not running'"
+alias netbox-shell="cd /opt/netbox/netbox && source /opt/netbox/venv/bin/activate && python manage.py shell"
+alias netbox-test="cd /workspaces/netbox-aws-vpc-plugin && source /opt/netbox/venv/bin/activate && python -m pytest"
+alias netbox-manage="cd /opt/netbox/netbox && source /opt/netbox/venv/bin/activate && python manage.py"
+alias plugin-install="cd /workspaces/netbox-aws-vpc-plugin && uv pip install -e ."
+alias ruff-check="cd /workspaces/netbox-aws-vpc-plugin && ruff check ."
+alias ruff-format="cd /workspaces/netbox-aws-vpc-plugin && ruff format ."
+alias ruff-fix="cd /workspaces/netbox-aws-vpc-plugin && ruff check --fix ."
+alias diagnose="/workspaces/netbox-aws-vpc-plugin/.devcontainer/diagnose.sh"
+
+# Alias to show all available aliases
+alias dev-help='echo "🎯 NetBox AWS VPC Plugin Development Commands:"; echo ""; echo "📊 NetBox Server Management:"; echo "  netbox-start        : Start NetBox in background"; echo "  netbox-run          : Start NetBox in foreground (for debugging)"; echo "  netbox-stop         : Stop NetBox background server"; echo "  netbox-restart      : Restart NetBox (stop + start)"; echo "  netbox-reload       : Reinstall plugin and restart NetBox"; echo "  netbox-status       : Check if NetBox is running"; echo "  netbox-logs         : View NetBox server logs"; echo ""; echo "🛠️  Development Tools:"; echo "  netbox-shell        : Open NetBox Django shell"; echo "  netbox-test         : Run plugin tests"; echo "  netbox-manage       : Run Django management commands"; echo "  plugin-install      : Reinstall plugin in development mode"; echo ""; echo "🔧 Code Quality:"; echo "  ruff-check          : Check code with Ruff"; echo "  ruff-format         : Format code with Ruff"; echo "  ruff-fix            : Auto-fix code issues with Ruff"; echo ""; echo "🔍 Diagnostics:"; echo "  diagnose            : Run startup diagnostics"; echo "  dev-help            : Show this help message"; echo ""; echo "📖 NetBox available at: http://localhost:8000 (admin/admin)"; echo ""'
+
+# Show brief help message on every new terminal
+echo ""
+echo "💡 NetBox AWS VPC Plugin dev commands available! Type 'dev-help' to see all commands."
+echo ""
+EOF
+
 echo "🧪 Testing plugin installation..."
 cd /opt/netbox/netbox
 if python -c "import netbox_aws_vpc_plugin; print('✅ Plugin import successful')" 2>&1 | grep -v "🧬 loaded config" | grep -q "✅ Plugin import successful"; then
