@@ -36,7 +36,9 @@ class AWSAccountModelTestCase(APITestCase):
         # Create a superuser for API authentication
         User = get_user_model()
         cls.superuser = User.objects.create_superuser(
-            username="testsuperuser", email="superuser@example.com", password="supersecret"
+            username="testsuperuser",
+            email="superuser@example.com",
+            password="supersecret",
         )
 
     def setUp(self):
@@ -89,7 +91,9 @@ class AWSVPCModelTestCase(APITestCase):
     def setUpTestData(cls):
         User = get_user_model()
         cls.superuser = User.objects.create_superuser(
-            username="testsuperuser2", email="superuser2@example.com", password="supersecret2"
+            username="testsuperuser2",
+            email="superuser2@example.com",
+            password="supersecret2",
         )
 
     def setUp(self):
@@ -102,6 +106,40 @@ class AWSVPCModelTestCase(APITestCase):
         vpc = AWSVPC.objects.create(vpc_id="vpc-12345678", owner_account=account, vpc_cidr=prefix)
         self.assertEqual(vpc.vpc_id, "vpc-12345678")
         self.assertEqual(str(vpc.vpc_cidr), "10.0.0.0/16")
+
+    def test_create_aws_vpc_with_ipv6_prefix(self):
+        account = AWSAccount.objects.create(account_id="111111111111", name="Test Account")
+        prefix = Prefix.objects.create(prefix="10.1.0.0/16")
+        ipv6_prefix = Prefix.objects.create(prefix="2600:1f18:286d:f300::/56")
+        vpc = AWSVPC.objects.create(
+            vpc_id="vpc-12345679",
+            owner_account=account,
+            vpc_cidr=prefix,
+        )
+        self.assertEqual(vpc.vpc_ipv6_cidrs.count(), 0)
+        vpc.vpc_ipv6_cidrs.add(ipv6_prefix)
+        self.assertEqual(vpc.vpc_id, "vpc-12345679")
+        self.assertEqual(str(vpc.vpc_cidr), "10.1.0.0/16")
+        self.assertEqual(vpc.vpc_ipv6_cidrs.count(), 1)
+
+    def test_create_aws_vpc_with_multiple_prefix(self):
+        account = AWSAccount.objects.create(account_id="111111115511", name="Test Account")
+        prefix = Prefix.objects.create(prefix="10.2.0.0/16")
+        secondary_prefix = Prefix.objects.create(prefix="10.3.0.0/16")
+        ipv6_prefix = Prefix.objects.create(prefix="2600:0000:286d:f300::/56")
+        vpc = AWSVPC.objects.create(
+            vpc_id="vpc-0b1eb59b119d8da06",
+            owner_account=account,
+            vpc_cidr=prefix,
+        )
+        self.assertEqual(vpc.vpc_ipv6_cidrs.count(), 0)
+        self.assertEqual(vpc.vpc_secondary_ipv4_cidrs.count(), 0)
+        vpc.vpc_ipv6_cidrs.add(ipv6_prefix)
+        vpc.vpc_secondary_ipv4_cidrs.add(secondary_prefix)
+        self.assertEqual(vpc.vpc_id, "vpc-0b1eb59b119d8da06")
+        self.assertEqual(str(vpc.vpc_cidr), "10.2.0.0/16")
+        self.assertEqual(vpc.vpc_ipv6_cidrs.count(), 1)
+        self.assertEqual(vpc.vpc_secondary_ipv4_cidrs.count(), 1)
 
     def test_vpc_status_choices(self):
         account = AWSAccount.objects.create(account_id="123456789012", name="Test Account")
@@ -145,7 +183,9 @@ class AWSSubnetModelTestCase(APITestCase):
     def setUpTestData(cls):
         User = get_user_model()
         cls.superuser = User.objects.create_superuser(
-            username="testsuperuser3", email="superuser3@example.com", password="supersecret3"
+            username="testsuperuser3",
+            email="superuser3@example.com",
+            password="supersecret3",
         )
 
     def setUp(self):
@@ -158,7 +198,10 @@ class AWSSubnetModelTestCase(APITestCase):
         vpc = AWSVPC.objects.create(vpc_id="vpc-12345678", owner_account=account, vpc_cidr=vpc_prefix)
         subnet_prefix = Prefix.objects.create(prefix="10.0.1.0/24")
         subnet = AWSSubnet.objects.create(
-            subnet_id="subnet-abcdef1234567890", vpc=vpc, owner_account=account, subnet_cidr=subnet_prefix
+            subnet_id="subnet-abcdef1234567890",
+            vpc=vpc,
+            owner_account=account,
+            subnet_cidr=subnet_prefix,
         )
         self.assertEqual(subnet.subnet_id, "subnet-abcdef1234567890")
         self.assertEqual(str(subnet.subnet_cidr), "10.0.1.0/24")

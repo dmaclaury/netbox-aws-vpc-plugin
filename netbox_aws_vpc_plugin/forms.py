@@ -3,7 +3,11 @@ from django import forms
 from ipam.models import Prefix
 from netbox.forms import NetBoxModelFilterSetForm, NetBoxModelForm
 from tenancy.models import Tenant
-from utilities.forms.fields import CommentField, DynamicModelChoiceField
+from utilities.forms.fields import (
+    CommentField,
+    DynamicModelChoiceField,
+    DynamicModelMultipleChoiceField,
+)
 
 from .constants import IPV4_PREFIXES, IPV6_PREFIXES
 from .models import AWSVPC, AWSAccount, AWSSubnet
@@ -15,7 +19,19 @@ class AWSVPCForm(NetBoxModelForm):
         queryset=Prefix.objects.filter(IPV4_PREFIXES),
         query_params={"family": 4},
         required=False,
-        label="Primary CIDR",
+        label="Primary IPv4 CIDR",
+    )
+    vpc_secondary_ipv4_cidrs = DynamicModelMultipleChoiceField(
+        queryset=Prefix.objects.filter(IPV4_PREFIXES),
+        query_params={"family": 4},
+        required=False,
+        label="Secondary IPv4 CIDRs",
+    )
+    vpc_ipv6_cidrs = DynamicModelMultipleChoiceField(
+        queryset=Prefix.objects.filter(IPV6_PREFIXES),
+        query_params={"family": 6},
+        required=False,
+        label="IPv6 CIDRs",
     )
     owner_account = DynamicModelChoiceField(
         queryset=AWSAccount.objects.all(),
@@ -31,7 +47,19 @@ class AWSVPCForm(NetBoxModelForm):
 
     class Meta:
         model = AWSVPC
-        fields = ("vpc_id", "name", "arn", "vpc_cidr", "owner_account", "region", "status", "comments", "tags")
+        fields = (
+            "vpc_id",
+            "name",
+            "arn",
+            "vpc_cidr",
+            "vpc_secondary_ipv4_cidrs",
+            "vpc_ipv6_cidrs",
+            "owner_account",
+            "region",
+            "status",
+            "comments",
+            "tags",
+        )
 
 
 class AWSVPCFilterForm(NetBoxModelFilterSetForm):
@@ -114,4 +142,13 @@ class AWSAccountForm(NetBoxModelForm):
 
     class Meta:
         model = AWSAccount
-        fields = ("account_id", "name", "arn", "tenant", "description", "status", "comments", "tags")
+        fields = (
+            "account_id",
+            "name",
+            "arn",
+            "tenant",
+            "description",
+            "status",
+            "comments",
+            "tags",
+        )

@@ -15,8 +15,28 @@ class AWSVPCTable(NetBoxTable):
 
     class Meta(NetBoxTable.Meta):
         model = AWSVPC
-        fields = ("pk", "id", "vpc_id", "name", "arn", "vpc_cidr", "owner_account", "region", "status", "actions")
-        default_columns = ("vpc_id", "name", "vpc_cidr", "owner_account", "region", "status")
+        fields = (
+            "pk",
+            "id",
+            "vpc_id",
+            "name",
+            "arn",
+            "vpc_cidr",
+            "vpc_secondary_ipv4_cidrs",
+            "vpc_ipv6_cidrs",
+            "owner_account",
+            "region",
+            "status",
+            "actions",
+        )
+        default_columns = (
+            "vpc_id",
+            "name",
+            "vpc_cidr",
+            "owner_account",
+            "region",
+            "status",
+        )
 
 
 class AWSSubnetTable(NetBoxTable):
@@ -44,7 +64,15 @@ class AWSSubnetTable(NetBoxTable):
             "status",
             "actions",
         )
-        default_columns = ("subnet_id", "name", "subnet_cidr", "vpc", "owner_account", "region", "status")
+        default_columns = (
+            "subnet_id",
+            "name",
+            "subnet_cidr",
+            "vpc",
+            "owner_account",
+            "region",
+            "status",
+        )
 
 
 class AWSAccountTable(NetBoxTable):
@@ -55,5 +83,14 @@ class AWSAccountTable(NetBoxTable):
 
     class Meta(NetBoxTable.Meta):
         model = AWSAccount
-        fields = ("pk", "id", "account_id", "name", "arn", "tenant", "status", "actions")
+        fields = (
+            "pk",
+            "id",
+            "account_id",
+            "name",
+            "arn",
+            "tenant",
+            "status",
+            "actions",
+        )
         default_columns = ("account_id", "name", "tenant", "status")

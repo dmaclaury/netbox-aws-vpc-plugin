@@ -30,6 +30,7 @@
     "containerEnv": {
         "NETBOX_VERSION": "${localEnv:NETBOX_VERSION:latest}",
         "DEBUG": "${localEnv:DEBUG:True}",
+        "DEVELOPER": "${localEnv:DEVELOPER:True}",
         "DB_HOST": "${localEnv:DB_HOST:postgres}",
         "DB_NAME": "${localEnv:DB_NAME:netbox}",
         "DB_USER": "${localEnv:DB_USER:netbox}",
@@ -59,7 +60,12 @@
                 "charliermarsh.ruff",
                 "bradlc.vscode-tailwindcss",
                 "ms-vscode.vscode-json",
-                "ms-vscode-remote.remote-containers"
+                "ms-vscode-remote.remote-containers",
+                "Gruntfuggly.todo-tree",
+                "DavidAnson.vscode-markdownlint",
+                "ms-python.flake8",
+                "ms-python.isort",
+                "ms-python.black-formatter"
             ],
             "settings": {
                 "python.defaultInterpreterPath": "/opt/netbox/venv/bin/python",
