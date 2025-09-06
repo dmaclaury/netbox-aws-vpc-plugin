@@ -30,10 +30,11 @@ source /opt/netbox/venv/bin/activate
 echo "🔧 Installing development dependencies..."
 apt-get update -qq
 apt-get install -y -qq net-tools
-uv pip install pytest pytest-django ruff pre-commit
+uv pip install pytest pytest-django ruff
 
 echo "📦 Installing plugin in development mode..."
 cd /workspaces/netbox-aws-vpc-plugin
+uv pip install -r requirements_dev.txt
 uv pip install -e .
 
 # Install pre-commit
