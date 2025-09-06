@@ -1,56 +1,75 @@
-
 {% extends 'generic/object.html' %}
 {% load render_table from django_tables2 %}
 
 {% block content %}
-  <div class="row mb-3">
-    <div class="col col-md-6">
-      <div class="card">
+<div class="row mb-3">
+  <div class="col col-md-6">
+    <div class="card">
 
-        <h5 class="card-header">AWS VPC</h5>
+      <h5 class="card-header">AWS VPC</h5>
 
-        <table class="table table-hover attr-table">
-          <tr>
-            <th scope="row">VPC ID</th>
-            <td>{{ object.vpc_id }}</td>
-          </tr>
-          <tr>
-            <th scope="row">Name</th>
-            <td>{{ object.name }}</td>
-          </tr>
-          <tr>
-            <th scope="row">ARN</th>
-            <td>{{ object.arn }}</td>
-          </tr>
-          <tr>
-            <th scope="row">Primary CIDR</th>
-            <td><a href="{{ object.vpc_cidr.get_absolute_url }}">{{ object.vpc_cidr }}</a></td>
-          </tr>
-          <tr>
-            <th scope="row">Owner Account</th>
-            <td><a href="{{ object.owner_account.get_absolute_url }}">{{ object.owner_account }}</a></td>
-          </tr>
-          <tr>
-            <th scope="row">Region</th>
-            <td><a href="{{ object.region.get_absolute_url }}">{{ object.region }}</a></td>
-          </tr>
-        </table>
-      </div>
-      {% include 'inc/panels/custom_fields.html' %}
+      <table class="table table-hover attr-table">
+        <tr>
+          <th scope="row">VPC ID</th>
+          <td>{{ object.vpc_id }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Name</th>
+          <td>{{ object.name }}</td>
+        </tr>
+        <tr>
+          <th scope="row">ARN</th>
+          <td>{{ object.arn }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Primary IPv4 CIDR</th>
+          <td><a href="{{ object.vpc_cidr.get_absolute_url }}">{{ object.vpc_cidr }}</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Secondary IPv4 CIDR(s)</th>
+          <td>
+            {% for secondary in object.vpc_secondary_ipv4_cidrs.all %}
+            <a href="{{ secondary.get_absolute_url }}">{{ secondary }}</a><br>
+            {% empty %}
+            None
+            {% endfor %}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">IPv6 CIDR(s)</th>
+          <td>
+            {% for cidr in object.vpc_ipv6_cidrs.all %}
+            <a href="{{ cidr.get_absolute_url }}">{{ cidr }}</a><br>
+            {% empty %}
+            None
+            {% endfor %}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Owner Account</th>
+          <td><a href="{{ object.owner_account.get_absolute_url }}">{{ object.owner_account }}</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Region</th>
+          <td><a href="{{ object.region.get_absolute_url }}">{{ object.region }}</a></td>
+        </tr>
+      </table>
     </div>
-    <div class="col col-md-6">
-      {% include 'inc/panels/tags.html' %}
-      {% include 'inc/panels/comments.html' %}
+    {% include 'inc/panels/custom_fields.html' %}
+  </div>
+  <div class="col col-md-6">
+    {% include 'inc/panels/tags.html' %}
+    {% include 'inc/panels/comments.html' %}
+  </div>
+</div>
+<div class="row">
+  <div class="col col-md-12">
+    <div class="card">
+      <h5 class="card-header">Subnets</h5>
+      <div class="card-body table-responsive">
+        {% render_table subnets_table %}
+      </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col col-md-12">
-      <div class="card">
-        <h5 class="card-header">Subnets</h5>
-        <div class="card-body table-responsive">
-          {% render_table subnets_table %}
-        </div>
-      </div>
-    </div>
-  </div>
+</div>
 {% endblock content %}
