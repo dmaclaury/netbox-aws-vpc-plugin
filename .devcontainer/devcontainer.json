@@ -1,44 +1,88 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.222.0/containers/python-3-miniconda
+// References from https://github.com/bonzo81/netbox-toolkit-plugin/blob/main/.devcontainer/devcontainer.json
 {
-    "name": "Python Environment",
-    "build": {
-        "dockerfile": "Dockerfile",
-        "context": ".."
+    "name": "NetBox Plugin Dev",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "devcontainer",
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    "forwardPorts": [
+        8000
+    ],
+    "portsAttributes": {
+        "8000": {
+            "label": "NetBox Web Interface",
+            "protocol": "http",
+            "requireLocalPort": false,
+            "elevateIfNeeded": false
+        }
+    },
+    "otherPortsAttributes": {
+        "onAutoForward": "ignore"
+    },
+    // GitHub Codespaces optimizations
+    "hostRequirements": {
+        "memory": "4gb",
+        "storage": "32gb"
+    },
+    // Environment variables for NetBox development
+    "containerEnv": {
+        "NETBOX_VERSION": "${localEnv:NETBOX_VERSION:latest}",
+        "DEBUG": "${localEnv:DEBUG:True}",
+        "DB_HOST": "${localEnv:DB_HOST:postgres}",
+        "DB_NAME": "${localEnv:DB_NAME:netbox}",
+        "DB_USER": "${localEnv:DB_USER:netbox}",
+        "DB_PASSWORD": "${localEnv:DB_PASSWORD:netbox}",
+        "REDIS_HOST": "${localEnv:REDIS_HOST:redis}",
+        "REDIS_PASSWORD": "${localEnv:REDIS_PASSWORD:}",
+        "SECRET_KEY": "${localEnv:SECRET_KEY:dummydummydummydummydummydummydummydummydummydummydummydummy}",
+        "SUPERUSER_NAME": "${localEnv:SUPERUSER_NAME:admin}",
+        "SUPERUSER_EMAIL": "${localEnv:SUPERUSER_EMAIL:admin@example.com}",
+        "SUPERUSER_PASSWORD": "${localEnv:SUPERUSER_PASSWORD:admin}",
+        "SKIP_SUPERUSER": "${localEnv:SKIP_SUPERUSER:false}"
+    },
+    // Features to add to the dev container
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {},
+        "ghcr.io/devcontainers/features/common-utils": {
+            "installZsh": true,
+            "installOhMyZsh": true,
+            "installOhMyZshConfig": true,
+            "configureZshAsDefaultShell": true
+        }
     },
     "customizations": {
         "vscode": {
             "extensions": [
-                "editorconfig.editorconfig",
-                "github.vscode-pull-request-github",
-                "ms-azuretools.vscode-docker",
                 "ms-python.python",
-                "ms-python.vscode-pylance",
-                "ms-python.pylint",
-                "ms-python.isort",
-                "ms-python.flake8",
-                "ms-python.black-formatter",
-                "ms-vsliveshare.vsliveshare",
-                "ryanluker.vscode-coverage-gutters",
-                "bungcip.better-toml",
-                "GitHub.copilot"
+                "charliermarsh.ruff",
+                "bradlc.vscode-tailwindcss",
+                "ms-vscode.vscode-json",
+                "ms-vscode-remote.remote-containers"
             ],
             "settings": {
-                "python.defaultInterpreterPath": "/usr/local/bin/python",
-                "black-formatter.path": [
-                    "/usr/local/py-utils/bin/black"
-                ],
-                "pylint.path": [
-                    "/usr/local/py-utils/bin/pylint"
-                ],
-                "flake8.path": [
-                    "/usr/local/py-utils/bin/flake8"
-                ],
-                "isort.path": [
-                    "/usr/local/py-utils/bin/isort"
+                "python.defaultInterpreterPath": "/opt/netbox/venv/bin/python",
+                "python.linting.enabled": false,
+                "python.formatting.provider": "none",
+                "[python]": {
+                    "editor.defaultFormatter": "charliermarsh.ruff",
+                    "editor.codeActionsOnSave": {
+                        "source.organizeImports": "explicit",
+                        "source.fixAll.ruff": "explicit"
+                    }
+                },
+                "ruff.organizeImports": true,
+                "ruff.fixAll": true,
+                "editor.formatOnSave": true,
+                "files.trimTrailingWhitespace": true,
+                "editor.rulers": [
+                    88
                 ]
             }
         }
     },
-    "onCreateCommand": "pre-commit install-hooks"
+    "postCreateCommand": "bash .devcontainer/setup.sh",
+    "postAttachCommand": "bash .devcontainer/welcome.sh",
+    "remoteUser": "root"
 }
