@@ -59,7 +59,12 @@
                 "charliermarsh.ruff",
                 "bradlc.vscode-tailwindcss",
                 "ms-vscode.vscode-json",
-                "ms-vscode-remote.remote-containers"
+                "ms-vscode-remote.remote-containers",
+                "Gruntfuggly.todo-tree",
+                "DavidAnson.vscode-markdownlint",
+                "ms-python.flake8",
+                "ms-python.isort",
+                "ms-python.black-formatter"
             ],
             "settings": {
                 "python.defaultInterpreterPath": "/opt/netbox/venv/bin/python",
