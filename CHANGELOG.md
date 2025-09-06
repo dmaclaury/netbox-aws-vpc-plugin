@@ -4,6 +4,8 @@
 
 * Adds IPv6 CIDR to AWS Subnets
 * Adds `IPV4_PREFIXES` and `IPV6_PREFIXES` constants to validate IP family for Subnets and VPCs
+* Adds IPv6 CIDR(s) to AWS VPC model
+* Adds secondary IPv4 CIDR(s) to AWS VPC model
 
 ## 0.0.6 (2025-08-27)
 
