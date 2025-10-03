@@ -19,6 +19,7 @@ class AWSVPCConfig(PluginConfig):
     min_version = "4.0.0"
     author = __author__
     author_email = __email__
+    graphql_schema = "graphql.schema"
 
 
 config = AWSVPCConfig
