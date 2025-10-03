@@ -1,6 +1,6 @@
 import strawberry_django
 
-from ..models import AWSVPC, AWSAccount
+from ..models import AWSVPC, AWSAccount, AWSSubnet
 
 
 @strawberry_django.type(
@@ -16,4 +16,12 @@ class AWSAccountType:
     fields="__all__",
 )
 class AWSVPCType:
+    pass
+
+
+@strawberry_django.type(
+    AWSSubnet,
+    fields="__all__",
+)
+class AWSSubnetType:
     pass
