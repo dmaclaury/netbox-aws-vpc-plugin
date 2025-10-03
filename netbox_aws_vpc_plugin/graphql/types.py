@@ -1,4 +1,5 @@
 import strawberry_django
+from netbox.graphql.types import NetBoxObjectType
 
 from ..models import AWSVPC, AWSAccount, AWSSubnet
 
@@ -7,7 +8,7 @@ from ..models import AWSVPC, AWSAccount, AWSSubnet
     AWSAccount,
     fields="__all__",
 )
-class AWSAccountType:
+class AWSAccountType(NetBoxObjectType):
     pass
 
 
@@ -15,7 +16,7 @@ class AWSAccountType:
     AWSVPC,
     fields="__all__",
 )
-class AWSVPCType:
+class AWSVPCType(NetBoxObjectType):
     pass
 
 
@@ -23,5 +24,5 @@ class AWSVPCType:
     AWSSubnet,
     fields="__all__",
 )
-class AWSSubnetType:
+class AWSSubnetType(NetBoxObjectType):
     pass
