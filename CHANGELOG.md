@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.8 (2025-10-03)
+
+* Adds basic GraphQL functionality for the custom models
+
 ## 0.0.7 (2025-09-06)
 
 * Adds IPv6 CIDR to AWS Subnets
