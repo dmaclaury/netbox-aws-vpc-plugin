@@ -30,7 +30,7 @@ requires-python = ">=3.10.0"
 [project.optional-dependencies]
 test = [
     "black==25.9.0",
-    "check-manifest==0.50",
+    "check-manifest==0.51",
     "flake8",
     "flake8-pyproject",
     "pre-commit==4.3.0",
