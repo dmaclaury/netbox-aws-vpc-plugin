@@ -34,7 +34,7 @@ test = [
     "flake8",
     "flake8-pyproject",
     "pre-commit==4.5.0",
-    "pytest==9.0.1",
+    "pytest==9.0.2",
 ]
 
 [project.urls]
