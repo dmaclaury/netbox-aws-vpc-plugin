@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0 (2026-01-19)
+
+* NetBox `4.5.0` compatibility
+* Replaces `NetBoxModelFilterMixin` with `NetBoxModelFilter`
+* Python version bumps to match NetBox `4.5.0` requiring Python `>= 3.12.0`
+
 ## 0.0.8 (2025-10-03)
 
 * Adds basic GraphQL functionality for the custom models
