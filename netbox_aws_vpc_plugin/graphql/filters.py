@@ -1,5 +1,5 @@
 import strawberry_django
-from netbox.graphql.filter_mixins import NetBoxModelFilterMixin
+from netbox.graphql.filters import NetBoxModelFilter
 
 from .. import models
 
@@ -11,15 +11,15 @@ __all__ = (
 
 
 @strawberry_django.filter(models.AWSAccount, lookups=True)
-class AWSAccountFilter(NetBoxModelFilterMixin):
+class AWSAccountFilter(NetBoxModelFilter):
     pass
 
 
 @strawberry_django.filter(models.AWSVPC, lookups=True)
-class AWSVPCFilter(NetBoxModelFilterMixin):
+class AWSVPCFilter(NetBoxModelFilter):
     pass
 
 
 @strawberry_django.filter(models.AWSSubnet, lookups=True)
-class AWSSubnetFilter(NetBoxModelFilterMixin):
+class AWSSubnetFilter(NetBoxModelFilter):
     pass

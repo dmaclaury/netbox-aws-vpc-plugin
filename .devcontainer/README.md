@@ -13,7 +13,7 @@ Much of this devcontainer was originally sourced from <https://github.com/bonzo8
 
 3. **NetBox auto-starts**: After setup completes, NetBox will automatically start in the background
 
-4. **Access NetBox**: Open http://localhost:8000 in your browser (may take a moment to be ready)
+4. **Access NetBox**: Open <http://localhost:8000> in your browser (may take a moment to be ready)
    - Username: `admin`
    - Password: `admin`
 
@@ -21,19 +21,19 @@ Much of this devcontainer was originally sourced from <https://github.com/bonzo8
 
 ### NetBox Version
 
-You can specify which NetBox Docker image version to use by setting the `NETBOX_VERSION` environment variable:
+You can specify which NetBox Docker image version to use by setting the `NETBOX_VERSION` environment variable
+(this version is an example, and may no longer be compatible):
 
 ```bash
 # Set in your shell before opening the devcontainer
-export NETBOX_VERSION=v4.1-3.3.0
+export NETBOX_VERSION=v4.5-3.4.2
 ```
 
 Or modify the `NETBOX_VERSION` value in `.devcontainer/devcontainer.json`.
 
 Available image tags:
+
 - `latest` (default) - Latest stable NetBox release
-- `v4.1-3.3.0` - NetBox v4.1 with NetBox Docker v3.3.0
-- `v4.0-3.3.0` - NetBox v4.0 with NetBox Docker v3.3.0
 - `snapshot` - Latest development version
 - See [Docker Hub](https://hub.docker.com/r/netboxcommunity/netbox/tags) for all available tags
 
@@ -42,8 +42,9 @@ Available image tags:
 The devcontainer supports these environment variables (set in `.env` or your shell environment):
 
 #### **Core Configuration**
+
 - `NETBOX_VERSION`: NetBox Docker image tag (default: `latest`)
-  - Available: `latest`, `v4.1-3.3.0`, `v4.0-3.3.0`, `snapshot`
+  - Available: `latest`, `snapshot`
   - See [Docker Hub](https://hub.docker.com/r/netboxcommunity/netbox/tags) for all tags
 
 - `DEBUG`: Enable Django debug mode (default: `True`)
@@ -52,18 +53,25 @@ The devcontainer supports these environment variables (set in `.env` or your she
 - `SECRET_KEY`: Django secret key (default: development key)
   - Must be 50+ characters for production use
 
+- `API_TOKEN_PEPPER_1`: Added in NetBox `4.5.0`.
+  - This will be used to generate SHA256 checksums for API tokens.
+
 #### **Database Configuration**
+
 - `DB_HOST`: PostgreSQL server hostname (default: `postgres`)
 - `DB_NAME`: Database name (default: `netbox`)
 - `DB_USER`: Database username (default: `netbox`)
 - `DB_PASSWORD`: Database password (default: `netbox`)
 
 #### **Redis Configuration**
+
 - `REDIS_HOST`: Redis server hostname (default: `redis`)
 - `REDIS_PASSWORD`: Redis password (default: empty)
 
 #### **Superuser Configuration**
+
 These control the automatic creation of the admin user:
+
 - `SUPERUSER_NAME`: Admin username (default: `admin`)
 - `SUPERUSER_EMAIL`: Admin email (default: `admin@example.com`)
 - `SUPERUSER_PASSWORD`: Admin password (default: `admin`)
@@ -72,6 +80,7 @@ These control the automatic creation of the admin user:
 #### **Using Environment Variables**
 
 **Option 1: Create .env file** (recommended for persistent settings):
+
 ```bash
 # Copy the example and customize
 cp .devcontainer/.env.example .devcontainer/.env
@@ -79,18 +88,20 @@ cp .devcontainer/.env.example .devcontainer/.env
 ```
 
 **Option 2: Set in shell** (for temporary changes):
+
 ```bash
-export NETBOX_VERSION=v4.1-3.3.0
+export NETBOX_VERSION=v4.5-3.4.2
 export DB_PASSWORD=mypassword
 # Then open the devcontainer
 ```
 
 **Option 3: VS Code settings** (per-workspace):
+
 ```json
 // In .vscode/settings.json
 {
     "terminal.integrated.env.linux": {
-        "NETBOX_VERSION": "v4.1-3.3.0",
+        "NETBOX_VERSION": "v4.5-3.4.2",
         "DEBUG": "False"
     }
 }
@@ -111,6 +122,7 @@ See the "Extra NetBox Configuration" section below for details.
 The setup script creates these convenient aliases:
 
 **NetBox Management:**
+
 - `netbox-start`: Start NetBox in background
 - `netbox-run`: Start NetBox in foreground (for debugging)
 - `netbox-stop`: Stop background NetBox server
@@ -122,6 +134,7 @@ The setup script creates these convenient aliases:
 - `netbox-manage`: Run Django management commands
 
 **Development:**
+
 - `netbox-test`: Run plugin tests
 - `plugin-install`: Reinstall plugin in development mode
 - `ruff-check`: Check code with Ruff
@@ -161,10 +174,12 @@ The development environment includes:
 ## 🐛 Troubleshooting
 
 ### Container won't start
+
 - Ensure Docker is running
 - Try rebuilding the container: `Ctrl+Shift+P` → "Dev Containers: Rebuild Container"
 
 ### NetBox won't start
+
 - Check if PostgreSQL and Redis are running: `docker-compose ps`
 - View logs: `docker-compose logs postgres redis devcontainer`
 - Check NetBox logs: `netbox-logs`
@@ -172,26 +187,33 @@ The development environment includes:
 - Try restarting: `netbox-restart`
 
 ### Migration errors
+
 If you see import errors during database migration:
+
 - The setup script adds plugin configuration directly to NetBox's main configuration
 - If migration fails, try rebuilding the container: `Ctrl+Shift+P` → "Dev Containers: Rebuild Container"
 - Check that plugin configuration was added: `cat /etc/netbox/config/configuration.py | grep aws_vpc`
 
 ### SECRET_KEY errors
+
 If you see "SECRET_KEY must be at least 50 characters" error:
+
 - The devcontainer sets a development SECRET_KEY automatically
 - If the error persists, rebuild the container: `Ctrl+Shift+P` → "Dev Containers: Rebuild Container"
 - The SECRET_KEY is set in both `devcontainer.json` and `docker-compose.yml`
 
 ### Plugin not loading
+
 - Ensure the plugin is installed: `uv pip install -e .` or `plugin-install`
 - Check if plugin configuration exists: `cat /etc/netbox/config/configuration.py | grep aws_vpc`
 - Restart NetBox server: `netbox-restart` or `netbox-reload`
 
 ### Database issues
+
 - Reset database: Stop services, run `docker-compose down -v`, then restart
 
 ### Permission issues
+
 - The devcontainer runs as root to avoid permission issues
 - Plugin files should be accessible from `/workspaces/netbox-aws-vpc-plugin`
 
@@ -202,7 +224,9 @@ If you see "SECRET_KEY must be at least 50 characters" error:
 You can extend the development environment by adding optional configuration files to the `.devcontainer` folder:
 
 #### Extra Python Packages
+
 Create `.devcontainer/extra-requirements.txt` to install additional Python packages:
+
 ```txt
 netbox-secrets>=1.9.0
 netbox-topology-views>=3.8.0
@@ -210,7 +234,9 @@ django-debug-toolbar>=4.0.0
 ```
 
 #### Extra NetBox Plugins
+
 Create `.devcontainer/extra-plugins.py` to add additional NetBox plugins:
+
 ```python
 # Add additional plugins to the PLUGINS list
 PLUGINS.extend([
@@ -227,7 +253,9 @@ PLUGINS_CONFIG.update({
 ```
 
 #### Extra NetBox Configuration
+
 Create `.devcontainer/extra-configuration.py` to add custom NetBox settings:
+
 ```python
 # Custom time zone
 TIME_ZONE = 'America/New_York'
@@ -243,13 +271,13 @@ LOGGING = {
 }
 ```
 
-**Example files** are provided with `.example` extensions that you can copy and customize.
-
 ### Legacy Configuration Methods
+
 - Plugin configuration is in `/etc/netbox/config/plugins.py`
 - Main NetBox config is in `/etc/netbox/config/configuration.py`
 
 ### VS Code extensions
+
 Add extensions to the `customizations.vscode.extensions` array in `devcontainer.json`.
 
 ## 🏗️ Using Official NetBox Docker

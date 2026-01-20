@@ -38,6 +38,7 @@
         "REDIS_HOST": "${localEnv:REDIS_HOST:redis}",
         "REDIS_PASSWORD": "${localEnv:REDIS_PASSWORD:}",
         "SECRET_KEY": "${localEnv:SECRET_KEY:dummydummydummydummydummydummydummydummydummydummydummydummy}",
+        "API_TOKEN_PEPPER_1": "${localEnv:API_TOKEN_PEPPER_1:abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456}",
         "SUPERUSER_NAME": "${localEnv:SUPERUSER_NAME:admin}",
         "SUPERUSER_EMAIL": "${localEnv:SUPERUSER_EMAIL:admin@example.com}",
         "SUPERUSER_PASSWORD": "${localEnv:SUPERUSER_PASSWORD:admin}",

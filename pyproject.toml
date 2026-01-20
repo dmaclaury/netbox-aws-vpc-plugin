@@ -7,25 +7,26 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name =  "netbox-aws-vpc-plugin"
-version = "0.0.8"
+version = "0.1.0"
 authors = [
     {name = "Daniel MacLaury", email = "daniel@danielmaclaury.com"},
 ]
 description = "NetBox plugin for modeling AWS VPCs in NetBox"
 readme = "README.md"
-license = {file="LICENCE"}
+license = "Apache-2.0"
+license-files = ["LICENSE"]
 
 classifiers=[
     'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',
     'Natural Language :: English',
     "Programming Language :: Python :: 3 :: Only",
-    'Programming Language :: Python :: 3.10',
-    'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+    'Programming Language :: Python :: 3.14',
 ]
 
-requires-python = ">=3.10.0"
+requires-python = ">=3.12.0"
 
 [project.optional-dependencies]
 test = [
@@ -44,7 +45,7 @@ Tracker = "https://github.com/dmaclaury/netbox-aws-vpc-plugin/issues"
 
 [tool.black]
 line-length = 120
-target_version = ['py310', 'py311', 'py312']
+target_version = ['py312', 'py313', 'py314']
 
 [tool.isort]
 profile = "black"

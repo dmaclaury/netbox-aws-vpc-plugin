@@ -3,7 +3,7 @@
 NetBox plugin for modeling AWS VPCs in NetBox
 
 * Free software: Apache-2.0
-* Documentation: https://dmaclaury.github.io/netbox-aws-vpc-plugin/
+* Documentation: <https://dmaclaury.github.io/netbox-aws-vpc-plugin/>
 
 ## Features
 
@@ -15,9 +15,10 @@ This plugin provides the following models in NetBox:
 
 ## Compatibility
 
-| NetBox Version | Plugin Version |
-|----------------|----------------|
-|     4.0+       |    >= 0.0.1    |
+| NetBox Version |   Plugin Version   |
+|----------------|--------------------|
+|  4.0 - 4.4.x   | >= 0.0.1, <= 0.0.8 |
+|      4.5 +     |       >= 0.1.0     |
 
 ## Installing
 
