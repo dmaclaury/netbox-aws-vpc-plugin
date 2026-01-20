@@ -53,6 +53,9 @@ The devcontainer supports these environment variables (set in `.env` or your she
 - `SECRET_KEY`: Django secret key (default: development key)
   - Must be 50+ characters for production use
 
+- `API_TOKEN_PEPPER_1`: Added in NetBox `4.5.0`.
+  - This will be used to generate SHA256 checksums for API tokens.
+
 #### **Database Configuration**
 
 - `DB_HOST`: PostgreSQL server hostname (default: `postgres`)
@@ -267,8 +270,6 @@ LOGGING = {
     # ... your logging config
 }
 ```
-
-**Example files** are provided with `.example` extensions that you can copy and customize.
 
 ### Legacy Configuration Methods
 

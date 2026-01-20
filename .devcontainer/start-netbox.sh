@@ -10,6 +10,7 @@ echo "🌐 Starting NetBox development server..."
 
 # Set required environment variables
 export SECRET_KEY="${SECRET_KEY:-dummydummydummydummydummydummydummydummydummydummydummydummy}"
+export API_TOKEN_PEPPER_1="${API_TOKEN_PEPPER_1:-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456}"
 export DEBUG="${DEBUG:-True}"
 
 # Detect Codespaces and show appropriate access URL
@@ -35,6 +36,7 @@ if [ "$BACKGROUND" = true ]; then
     # Start NetBox in background with proper environment preservation
     (
         export SECRET_KEY="${SECRET_KEY:-dummydummydummydummydummydummydummydummydummydummydummydummy}"
+        export API_TOKEN_PEPPERS="${API_TOKEN_PEPPERS:-{1: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456'}}"
         export DEBUG="${DEBUG:-True}"
         source /opt/netbox/venv/bin/activate
         cd /opt/netbox/netbox

@@ -16,6 +16,7 @@ services:
       REDIS_HOST: ${REDIS_HOST:-redis}
       REDIS_PASSWORD: ${REDIS_PASSWORD:-}
       SECRET_KEY: ${SECRET_KEY:-dummydummydummydummydummydummydummydummydummydummydummydummy}
+      API_TOKEN_PEPPER_1: "${API_TOKEN_PEPPER_1:-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456}"
       SUPERUSER_NAME: ${SUPERUSER_NAME:-admin}
       SUPERUSER_EMAIL: ${SUPERUSER_EMAIL:-admin@example.com}
       SUPERUSER_PASSWORD: ${SUPERUSER_PASSWORD:-admin}
