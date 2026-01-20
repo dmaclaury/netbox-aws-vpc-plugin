@@ -29,7 +29,7 @@ source /opt/netbox/venv/bin/activate
 
 echo "🔧 Installing development dependencies..."
 apt-get update -qq
-apt-get install -y -qq net-tools
+apt-get install -y -qq net-tools make
 uv pip install pytest pytest-django ruff
 
 echo "📦 Installing plugin in development mode..."
@@ -136,7 +136,7 @@ cd /opt/netbox/netbox
 # Check database connectivity first
 echo "🔍 Checking database connectivity..."
 for i in {1..30}; do
-    if DJANGO_SETTINGS_MODULE=netbox.settings SECRET_KEY="${SECRET_KEY:-dummydummydummydummydummydummydummydummydummydummydummydummy}" DEBUG="${DEBUG:-True}" python -c "
+    if DJANGO_SETTINGS_MODULE=netbox.settings SECRET_KEY="${SECRET_KEY:-dummydummydummydummydummydummydummydummydummydummydummydummy}" DEBUG="${DEBUG:-True} " API_TOKEN_PEPPERS="${API_TOKEN_PEPPERS:-{1: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456'}}" python -c "
 import django
 django.setup()
 from django.db import connection
@@ -164,6 +164,8 @@ done
 
 # Ensure SECRET_KEY is set for migration
 export SECRET_KEY="${SECRET_KEY:-dummydummydummydummydummydummydummydummydummydummydummydummy}"
+# Ensure API_TOKEN_PEPPERS is set for migration
+export API_TOKEN_PEPPERS="${API_TOKEN_PEPPERS:-{1: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456'}}"
 export DEBUG="${DEBUG:-True}"
 echo "🗃️  Applying database migrations..."
 python manage.py migrate 2>&1 | grep -v "🧬 loaded config" | grep -E "(Operations to perform|Running migrations|Apply all migrations|No migrations to apply|\s+Applying|\s+OK)"
@@ -171,7 +173,7 @@ python manage.py migrate 2>&1 | grep -v "🧬 loaded config" | grep -E "(Operati
 echo "🔐 Creating superuser (if not exists)..."
 # The superuser should be created automatically by the NetBox Docker image
 # but we'll check and create one if needed
-DEBUG="${DEBUG:-True}" SECRET_KEY="${SECRET_KEY:-dummydummydummydummydummydummydummydummydummydummydummydummy}" \
+DEBUG="${DEBUG:-True}" SECRET_KEY="${SECRET_KEY:-dummydummydummydummydummydummydummydummydummydummydummydummy}" API_TOKEN_PEPPERS="${API_TOKEN_PEPPERS:-{1: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456'}}" \
 python manage.py shell -c "
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -186,7 +188,7 @@ else:
 " 2>&1 | grep -v "🧬 loaded config"
 
 echo "📊 Collecting static files..."
-DEBUG="${DEBUG:-True}" SECRET_KEY="${SECRET_KEY:-dummydummydummydummydummydummydummydummydummydummydummydummy}" \
+DEBUG="${DEBUG:-True}" SECRET_KEY="${SECRET_KEY:-dummydummydummydummydummydummydummydummydummydummydummydummy}" API_TOKEN_PEPPERS="${API_TOKEN_PEPPERS:-{1: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456'}}" \
 python manage.py collectstatic --noinput 2>&1 | grep -v "🧬 loaded config"
 
 echo "📝 Setting up development scripts..."
@@ -199,6 +201,7 @@ cat >> ~/.bashrc << EOF
 # NetBox AWS VPC Plugin Development Aliases
 export PATH="/opt/netbox/venv/bin:\$PATH"
 export SECRET_KEY="\${SECRET_KEY:-dummydummydummydummydummydummydummydummydummydummydummydummy}"
+export API_TOKEN_PEPPERS="\${API_TOKEN_PEPPERS:-{1: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456'}}"
 export DEBUG="\${DEBUG:-True}"
 alias netbox-start="/workspaces/netbox-aws-vpc-plugin/.devcontainer/start-netbox.sh --background"
 alias netbox-run="/workspaces/netbox-aws-vpc-plugin/.devcontainer/start-netbox.sh"
@@ -229,6 +232,7 @@ cat >> ~/.zshrc << EOF
 # NetBox AWS VPC Plugin Development Aliases
 export PATH="/opt/netbox/venv/bin:\$PATH"
 export SECRET_KEY="\${SECRET_KEY:-dummydummydummydummydummydummydummydummydummydummydummydummy}"
+export API_TOKEN_PEPPERS="\${API_TOKEN_PEPPERS:-{1: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456'}}"
 export DEBUG="\${DEBUG:-True}"
 alias netbox-start="/workspaces/netbox-aws-vpc-plugin/.devcontainer/start-netbox.sh --background"
 alias netbox-run="/workspaces/netbox-aws-vpc-plugin/.devcontainer/start-netbox.sh"
