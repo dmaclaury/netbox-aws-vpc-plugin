@@ -50,6 +50,26 @@ PLUGINS_CONFIG = {
 }
 ```
 
+## Developement
+
+To locally work on developing this plugin, clone the repo to your local machine.
+
+It is suggested to create a VirtualEnv decicated to the repo, for example:
+
+```bash
+python3 -m venv venv
+source source venv/bin/activate
+```
+
+Once activated, install the development packages:
+
+```bash
+pip install -U -r requirements_dev.txt
+```
+
+Alternatively, you can use the provided devcontainer which will provide NetBox
+and the required development packages.
+
 ## Credits
 
 Based on the NetBox plugin tutorial:
