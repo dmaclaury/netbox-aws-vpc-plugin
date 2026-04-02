@@ -277,3 +277,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# AI Skills
+.agents/
