@@ -76,7 +76,7 @@ netbox_aws_vpc_plugin/
 └── templates/               # (package data in pyproject)
 ```
 
-**Extras (not core plugin):** [`extras/`](extras/) — scripts, examples, and optional tooling **outside** the shipped package (`models`, API, GraphQL, UI, migrations). **AWS API usage** (e.g. `boto3`) is **optional** and only relevant when developing or running these extras (see work in progress such as [`extras/scripts/add_vpc_to_netbox.py`](extras/scripts/add_vpc_to_netbox.py)). Do not require AWS for core plugin behavior.
+**Extras (not core plugin):** [`extras/`](extras/) — scripts, examples, and optional tooling **outside** the shipped package (`models`, API, GraphQL, UI, migrations). **AWS API usage** (e.g. `boto3`) is **optional** and only relevant when developing or running these extras (see work in progress such as [`extras/scripts/add_vpc_to_netbox/`](extras/scripts/add_vpc_to_netbox/)). Do not require AWS for core plugin behavior.
 
 ## Development environment
 

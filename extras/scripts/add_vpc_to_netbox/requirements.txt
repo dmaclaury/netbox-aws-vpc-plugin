@@ -1,0 +1,5 @@
+# Optional dependencies for extras/scripts/add_vpc_to_netbox (not the core NetBox plugin package).
+# Install with: pip install -r extras/scripts/add_vpc_to_netbox/requirements.txt
+
+boto3>=1.34.0,<2
+pynetbox>=7.3.0,<8
