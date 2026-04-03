@@ -69,11 +69,11 @@ class DiscoverVPC:
         """
         Discover the VPC details from AWS.
         """
-        logger.info(f"Discovering details for VPC: {self.vpc_id}")
+        logger.info("Querying EC2 for VPC %s", self.vpc_id)
         # Use boto3 to query AWS for VPC details and return them in a structured format
         try:
             response = self.ec2_client.describe_vpcs(VpcIds=[self.vpc_id])
-            logger.info(response)
+            logger.debug("describe_vpcs response: %s", response)
         except ClientError as e:
             logger.error(e)
             return
@@ -115,7 +115,15 @@ class DiscoverVPC:
         ]
         self.vpc_data["owner_account_id"] = vpc.get("OwnerId")
 
-        logger.debug(f"Discovered VPC Data: {self.vpc_data}")
+        logger.debug("Parsed VPC data: %s", self.vpc_data)
+        logger.info(
+            "VPC %s: name=%s region=%s CIDR=%s owner=%s",
+            self.vpc_data.get("vpc_id"),
+            self.vpc_data.get("vpc_name") or "(no Name tag)",
+            self.vpc_data.get("region"),
+            self.vpc_data.get("vpc_cidr"),
+            self.vpc_data.get("owner_account_id"),
+        )
 
 
 class DiscoverSubnetsForVpc:
@@ -142,7 +150,7 @@ class DiscoverSubnetsForVpc:
         return ec2_client
 
     def discover(self):
-        logger.info("Discovering subnets for VPC: %s", self.vpc_id)
+        logger.debug("Listing subnets in VPC %s", self.vpc_id)
         try:
             response = self.ec2_client.describe_subnets(
                 Filters=[{"Name": "vpc-id", "Values": [self.vpc_id]}],
@@ -178,7 +186,7 @@ class DiscoverSubnetsForVpc:
                     "subnet_ipv6_cidrs": ipv6,
                 }
             )
-        logger.debug("Discovered %s subnet(s)", len(rows))
+        logger.debug("EC2 returned %s subnet(s) for VPC %s", len(rows), self.vpc_id)
         return rows
 
 
@@ -193,10 +201,19 @@ def _ensure_repo_root_on_path():
         sys.path.insert(0, root)
 
 
+def _configure_logging(level: int) -> None:
+    """Configure root logging and quiet AWS SDK loggers unless *level* is DEBUG."""
+    logging.basicConfig(
+        level=level,
+        format="%(levelname)s %(name)s: %(message)s",
+    )
+    if level > logging.DEBUG:
+        for name in ("boto3", "botocore", "urllib3"):
+            logging.getLogger(name).setLevel(logging.WARNING)
+
+
 def main(argv=None):
     _ensure_repo_root_on_path()
-    logging.basicConfig(level=logging.INFO)
-    logger.info("Starting to parse arg inputs...")
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "vpc_id",
@@ -212,7 +229,10 @@ def main(argv=None):
     )
     parser.add_argument(
         "--log-level",
-        help="Specify the log level to use during the run. (Ex: `INFO` (default), `DEBUG`, etc.)",
+        help=(
+            "Root log level (default: INFO, or LOG_LEVEL env). "
+            "Use DEBUG for full AWS API responses and boto3/botocore detail."
+        ),
     )
     parser.add_argument(
         "--dry-run",
@@ -255,13 +275,13 @@ def main(argv=None):
         ),
     )
     args = parser.parse_args(argv)
-    logger.info("Completed arg parse")
-    if args.log_level:
-        log_level = getattr(logging, args.log_level.upper(), None)
-        if isinstance(log_level, int):
-            logger.setLevel(log_level)
+    level_name = (args.log_level or os.environ.get("LOG_LEVEL") or "INFO").upper()
+    log_level = getattr(logging, level_name, None)
+    if not isinstance(log_level, int):
+        log_level = logging.INFO
+    _configure_logging(log_level)
 
-    logger.debug("Args Parsed: %s", args)
+    logger.debug("Parsed args: %s", args)
 
     try:
         validate_vpc_id(args.vpc_id)
