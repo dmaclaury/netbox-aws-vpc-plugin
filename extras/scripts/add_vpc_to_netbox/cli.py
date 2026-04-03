@@ -283,7 +283,10 @@ def main(argv=None):
     token = (args.netbox_token or "").strip()
     if netbox_url and token:
         try:
-            from extras.scripts.add_vpc_to_netbox.netbox_sync import NetBoxSync, connect_pynetbox
+            from extras.scripts.add_vpc_to_netbox.netbox_sync import (
+                NetBoxSync,
+                connect_pynetbox,
+            )
         except ImportError:
             logger.error(
                 "pynetbox is required for NetBox sync; install extras/scripts/add_vpc_to_netbox/requirements.txt"
