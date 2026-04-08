@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "netbox-integration-best-practices": {
+      "source": "netboxlabs/netbox-best-practices",
+      "sourceType": "github",
+      "computedHash": "eb5b8b2062d14a9e500eaa235f438b5b1d75b2ceea440bd8f1442ace5ad29c0c"
+    }
+  }
+}
