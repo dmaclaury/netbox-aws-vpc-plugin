@@ -1,6 +1,6 @@
 black==26.10.1
 flake8==7.4.1
-pip==26.2.1
+pip==26.2.2
 check-manifest==0.51
 pre-commit==4.7.0
 isort==9.0.1
