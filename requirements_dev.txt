@@ -4,4 +4,4 @@ pip==26.3
 check-manifest==0.51
 pre-commit==4.7.0
 isort==9.0.2
-boto3==1.44.3
+boto3==1.44.7
